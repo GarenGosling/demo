@@ -18,6 +18,8 @@
 
     <modules>
         <module>zookeeper</module>
+        <module>java-core</module>
+        <module>java-advance</module>
     </modules>
 
     <properties>
