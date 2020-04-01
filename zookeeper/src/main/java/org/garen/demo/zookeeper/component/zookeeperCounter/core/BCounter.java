@@ -79,7 +79,9 @@ public class BCounter {
         boolean b = false;
         if(stat1 == null){
             b = true;
+            deleteCounterFromParentNode(client, counterName);   // 父节点中删除计数器信息
         }
+
         CloseableUtils.closeQuietly(client);
         return b;
     }
@@ -322,8 +324,8 @@ public class BCounter {
      *
      * @author : Garen Gosling   2020/4/1 上午9:22
      *
-     * @param client
-     * @param counterInfoList
+     * @param client 客户端
+     * @param counterInfoList 计数器信息集合
      * @Return void
      **/
     private void counterListToParentNodeValue(CuratorFramework client, List<CounterInfo> counterInfoList) throws Exception {
@@ -361,6 +363,31 @@ public class BCounter {
         }
         counterInfoList.add(new CounterInfo(counterName, counterDesc, -1L));
         counterListToParentNodeValue(client, counterInfoList);
+    }
+
+    /**
+     * <p>
+     * 功能描述 : 从父节点删除计数器信息
+     * </p>
+     *
+     * @author : Garen Gosling   2020/4/1 下午2:55
+     *
+     * @param client 客户端
+     * @param counterName 计数器名称
+     * @Return void
+     **/
+    private void deleteCounterFromParentNode(CuratorFramework client, String counterName) throws Exception {
+        // 父节点中删除计数器信息
+        List<CounterInfo> counterInfoList = getCounterListByParentNode(client, false);
+        if(!CollectionUtils.isEmpty(counterInfoList)){
+            for(CounterInfo c : counterInfoList){
+                if(c.getName().equals(counterName)){
+                    counterInfoList.remove(c);
+                    break;
+                }
+            }
+            counterListToParentNodeValue(client, counterInfoList);
+        }
     }
 
     /**
