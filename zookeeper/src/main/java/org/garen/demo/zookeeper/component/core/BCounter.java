@@ -201,7 +201,7 @@ public class BCounter {
 
     /**
      * <p>
-     * 功能描述 : 强迫设置值
+     * 功能描述 : 强迫设置计数值
      * </p>
      *
      * @author : Garen Gosling   2020/3/31 下午5:26

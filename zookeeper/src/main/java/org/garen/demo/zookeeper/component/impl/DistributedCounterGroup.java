@@ -3,6 +3,7 @@ package org.garen.demo.zookeeper.component.impl;
 import org.garen.demo.zookeeper.component.core.BCounter;
 import org.garen.demo.zookeeper.component.IDistributedCounterGroup;
 import org.garen.demo.zookeeper.component.entity.CounterInfo;
+import org.garen.demo.zookeeper.response.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,27 +24,52 @@ public class DistributedCounterGroup implements IDistributedCounterGroup {
     private BCounter bCounter;
 
     @Override
-    public boolean createCounter(String counterName, String counterDesc, final Long initialize) throws Exception {
-        return bCounter.createCounter(counterName, counterDesc, initialize);
+    public boolean createCounter(String counterName, String counterDesc, final Long initialize) {
+        try {
+            return bCounter.createCounter(counterName, counterDesc, initialize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public boolean deleteCounter(String counterName) throws Exception {
-        return bCounter.deleteCounter(counterName);
+    public boolean deleteCounter(String counterName) {
+        try {
+            return bCounter.deleteCounter(counterName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public boolean updateCounter(String counterName, String counterDesc) throws Exception {
-        return bCounter.updateCounter(counterName, counterDesc);
+    public boolean updateCounter(String counterName, String counterDesc) {
+        try {
+            return bCounter.updateCounter(counterName, counterDesc);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public List<CounterInfo> getCounterList() throws Exception {
-        return bCounter.getCounterList();
+    public List<CounterInfo> getCounterList() {
+        try {
+            return bCounter.getCounterList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public boolean initialize(String counterName, Long initialize) throws Exception {
-        return bCounter.initialize(counterName, initialize);
+    public boolean initialize(String counterName, Long initialize) {
+        try {
+            return bCounter.initialize(counterName, initialize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 }

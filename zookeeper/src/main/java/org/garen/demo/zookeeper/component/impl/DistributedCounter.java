@@ -4,6 +4,7 @@ import org.apache.curator.framework.recipes.atomic.DistributedAtomicLong;
 import org.garen.demo.zookeeper.component.core.BCounter;
 import org.garen.demo.zookeeper.component.IDistributedCounter;
 import org.garen.demo.zookeeper.component.entity.CounterResult;
+import org.garen.demo.zookeeper.response.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,43 +22,83 @@ public class DistributedCounter implements IDistributedCounter {
     private BCounter bCounter;
 
     @Override
-    public CounterResult increment(String counterName) throws Exception {
-        return bCounter.execute(counterName, DistributedAtomicLong::increment);
+    public CounterResult increment(String counterName) {
+        try {
+            return bCounter.execute(counterName, DistributedAtomicLong::increment);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public CounterResult decrement(String counterName) throws Exception {
-        return bCounter.execute(counterName, DistributedAtomicLong::decrement);
+    public CounterResult decrement(String counterName) {
+        try {
+            return bCounter.execute(counterName, DistributedAtomicLong::decrement);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public CounterResult add(String counterName, final Long delta) throws Exception {
-        return bCounter.execute(counterName, count -> count.add(delta));
+    public CounterResult add(String counterName, final Long delta) {
+        try {
+            return bCounter.execute(counterName, count -> count.add(delta));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public CounterResult subtract(String counterName, final Long delta) throws Exception {
-        return bCounter.execute(counterName, count -> count.subtract(delta));
+    public CounterResult subtract(String counterName, final Long delta) {
+        try {
+            return bCounter.execute(counterName, count -> count.subtract(delta));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public CounterResult get(String counterName) throws Exception {
-        return bCounter.execute(counterName, DistributedAtomicLong::get);
+    public CounterResult get(String counterName) {
+        try {
+            return bCounter.execute(counterName, DistributedAtomicLong::get);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public Long getValue(String counterName) throws Exception {
-        return bCounter.get(counterName);
+    public Long getValue(String counterName) {
+        try {
+            return bCounter.get(counterName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public CounterResult trySet(String counterName, final Long newValue) throws Exception {
-        return bCounter.execute(counterName, count -> count.trySet(newValue));
+    public CounterResult trySet(String counterName, final Long newValue) {
+        try {
+            return bCounter.execute(counterName, count -> count.trySet(newValue));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @Override
-    public void forceSet(String counterName, Long newValue) throws Exception {
-        bCounter.forceSet(counterName, newValue);
+    public void forceSet(String counterName, Long newValue) {
+        try {
+            bCounter.forceSet(counterName, newValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(e.getMessage());
+        }
     }
 
 

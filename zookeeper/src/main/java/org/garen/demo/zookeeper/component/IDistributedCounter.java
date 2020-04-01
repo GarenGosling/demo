@@ -21,7 +21,7 @@ public interface IDistributedCounter {
      * @param counterName 计数器名称
      * @Return org.garen.demo.zookeeper.component.entity.CounterResult
      **/
-    CounterResult increment(String counterName) throws Exception;
+    CounterResult increment(String counterName);
 
     /**
      * <p>
@@ -33,7 +33,7 @@ public interface IDistributedCounter {
      * @param counterName 计数器名称
      * @Return org.garen.demo.zookeeper.component.entity.CounterResult
      **/
-    CounterResult decrement(String counterName) throws Exception;
+    CounterResult decrement(String counterName);
 
     /**
      * <p>
@@ -42,11 +42,11 @@ public interface IDistributedCounter {
      *
      * @author : Garen Gosling   2020/4/1 上午10:40
      *
-     * @param counterName
-     * @param delta
+     * @param counterName 计数器名称
+     * @param delta 加上的值
      * @Return org.garen.demo.zookeeper.component.entity.CounterResult
      **/
-    CounterResult add(String counterName, final Long delta) throws Exception;
+    CounterResult add(String counterName, final Long delta);
 
     /**
      * <p>
@@ -59,7 +59,7 @@ public interface IDistributedCounter {
      * @param delta 减去的值
      * @Return org.garen.demo.zookeeper.component.entity.CounterResult
      **/
-    CounterResult subtract(String counterName, final Long delta) throws Exception;
+    CounterResult subtract(String counterName, final Long delta);
 
     /**
      * <p>
@@ -71,7 +71,7 @@ public interface IDistributedCounter {
      * @param counterName 计数器名称
      * @Return java.lang.Long
      **/
-    CounterResult get(String counterName) throws Exception;
+    CounterResult get(String counterName);
 
     /**
      * <p>
@@ -83,7 +83,7 @@ public interface IDistributedCounter {
      * @param counterName 计数器名称
      * @Return java.lang.Long
      **/
-    Long getValue(String counterName) throws Exception;
+    Long getValue(String counterName);
 
     /**
      * <p>
@@ -96,11 +96,11 @@ public interface IDistributedCounter {
      * @param newValue 新值
      * @Return org.garen.demo.zookeeper.component.entity.CounterResult
      **/
-    CounterResult trySet(String counterName, final Long newValue) throws Exception;
+    CounterResult trySet(String counterName, final Long newValue);
 
     /**
      * <p>
-     * 功能描述 : 强迫设置值
+     * 功能描述 : 强迫设置计数值
      * </p>
      *
      * @author : Garen Gosling   2020/3/31 下午5:26
@@ -109,5 +109,5 @@ public interface IDistributedCounter {
      * @param newValue 新值
      * @Return void
      **/
-    void forceSet(String counterName, Long newValue) throws Exception;
+    void forceSet(String counterName, Long newValue);
 }

@@ -23,7 +23,7 @@ public interface IDistributedCounterGroup {
      * @param initialize 初始化值
      * @Return boolean
      **/
-    boolean createCounter(String counterName, String counterDesc, Long initialize) throws Exception;
+    boolean createCounter(String counterName, String counterDesc, Long initialize);
 
     /**
      * <p>
@@ -35,7 +35,7 @@ public interface IDistributedCounterGroup {
      * @param counterName 计数器名称
      * @Return void
      **/
-    boolean deleteCounter(String counterName) throws Exception;
+    boolean deleteCounter(String counterName);
 
     /**
      * <p>
@@ -48,7 +48,7 @@ public interface IDistributedCounterGroup {
      * @param counterDesc 计数器描述
      * @Return void
      **/
-    boolean updateCounter(String counterName, String counterDesc) throws Exception;
+    boolean updateCounter(String counterName, String counterDesc);
 
     /**
      * <p>
@@ -60,7 +60,7 @@ public interface IDistributedCounterGroup {
      * @param
      * @Return java.util.List<org.garen.demo.zookeeper.component.entity.CounterInfo>
      **/
-    List<CounterInfo> getCounterList() throws Exception;
+    List<CounterInfo> getCounterList();
 
     /**
      * <p>
@@ -73,5 +73,5 @@ public interface IDistributedCounterGroup {
      * @param initialize 初始化数字
      * @Return boolean
      **/
-    boolean initialize(String counterName, Long initialize) throws Exception;
+    boolean initialize(String counterName, Long initialize);
 }
