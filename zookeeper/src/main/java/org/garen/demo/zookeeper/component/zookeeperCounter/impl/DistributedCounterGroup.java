@@ -1,8 +1,8 @@
-package org.garen.demo.zookeeper.component.impl;
+package org.garen.demo.zookeeper.component.zookeeperCounter.impl;
 
-import org.garen.demo.zookeeper.component.core.BCounter;
-import org.garen.demo.zookeeper.component.IDistributedCounterGroup;
-import org.garen.demo.zookeeper.component.entity.CounterInfo;
+import org.garen.demo.zookeeper.component.zookeeperCounter.core.BCounter;
+import org.garen.demo.zookeeper.component.zookeeperCounter.IDistributedCounterGroup;
+import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo;
 import org.garen.demo.zookeeper.response.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

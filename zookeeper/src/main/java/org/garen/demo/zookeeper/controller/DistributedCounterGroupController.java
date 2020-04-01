@@ -2,8 +2,8 @@ package org.garen.demo.zookeeper.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.garen.demo.zookeeper.component.IDistributedCounterGroup;
-import org.garen.demo.zookeeper.component.entity.CounterInfo;
+import org.garen.demo.zookeeper.component.zookeeperCounter.IDistributedCounterGroup;
+import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo;
 import org.garen.demo.zookeeper.response.CodeEnum;
 import org.garen.demo.zookeeper.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;

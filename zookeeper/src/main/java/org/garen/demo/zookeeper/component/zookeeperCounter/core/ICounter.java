@@ -1,4 +1,4 @@
-package org.garen.demo.zookeeper.component.core;
+package org.garen.demo.zookeeper.component.zookeeperCounter.core;
 
 import org.apache.curator.framework.recipes.atomic.AtomicValue;
 import org.apache.curator.framework.recipes.atomic.DistributedAtomicLong;

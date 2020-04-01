@@ -1,4 +1,4 @@
-package org.garen.demo.zookeeper.component.entity;
+package org.garen.demo.zookeeper.component.zookeeperCounter.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

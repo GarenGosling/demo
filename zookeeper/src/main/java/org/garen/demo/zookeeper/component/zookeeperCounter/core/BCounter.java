@@ -1,4 +1,4 @@
-package org.garen.demo.zookeeper.component.core;
+package org.garen.demo.zookeeper.component.zookeeperCounter.core;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -9,8 +9,8 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.retry.RetryNTimes;
 import org.apache.curator.utils.CloseableUtils;
 import org.apache.zookeeper.data.Stat;
-import org.garen.demo.zookeeper.component.entity.CounterInfo;
-import org.garen.demo.zookeeper.component.entity.CounterResult;
+import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo;
+import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult;
 import org.garen.demo.zookeeper.response.BusinessException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -121,7 +121,7 @@ public class BCounter {
      * @author : Garen Gosling   2020/3/31 下午6:26
      *
      * @param
-     * @Return java.util.List<org.garen.demo.zookeeper.component.entity.CounterInfo>
+     * @Return java.util.List<org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo>
      **/
     public List<CounterInfo> getCounterList() throws Exception {
         CuratorFramework client = createStartClient();
@@ -174,7 +174,7 @@ public class BCounter {
      *
      * @param counterName 计数器名称
      * @param iCounter 函数式接口
-     * @Return org.garen.demo.zookeeper.component.entity.CounterResult
+     * @Return org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult
      **/
     public CounterResult execute(String counterName, ICounter iCounter) throws Exception {
         ClientCounter cc = getClientCounter(counterName);
@@ -247,7 +247,7 @@ public class BCounter {
      * @author : Garen Gosling   2020/3/31 下午5:29
      *
      * @param counterName 计数器名称
-     * @Return org.garen.demo.zookeeper.component.impl.DistributedCounter.ClientCounter
+     * @Return org.garen.demo.zookeeper.component.zookeeperCounter.impl.DistributedCounter.ClientCounter
      **/
     private ClientCounter getClientCounter(String counterName) {
         CuratorFramework client = createStartClient();
@@ -289,7 +289,7 @@ public class BCounter {
      * @author : Garen Gosling   2020/3/31 下午6:07
      *
      * @param client 客户端
-     * @Return java.util.List<org.garen.demo.zookeeper.component.entity.CounterInfo>
+     * @Return java.util.List<org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo>
      **/
     private List<CounterInfo> getCounterListByParentNode(CuratorFramework client, boolean withValue) throws Exception {
         byte[] bytes = client.getData().forPath(COUNTER_BASE_NODE);

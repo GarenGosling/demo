@@ -1,9 +1,9 @@
-package org.garen.demo.zookeeper.component.impl;
+package org.garen.demo.zookeeper.component.zookeeperCounter.impl;
 
 import org.apache.curator.framework.recipes.atomic.DistributedAtomicLong;
-import org.garen.demo.zookeeper.component.core.BCounter;
-import org.garen.demo.zookeeper.component.IDistributedCounter;
-import org.garen.demo.zookeeper.component.entity.CounterResult;
+import org.garen.demo.zookeeper.component.zookeeperCounter.core.BCounter;
+import org.garen.demo.zookeeper.component.zookeeperCounter.IDistributedCounter;
+import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult;
 import org.garen.demo.zookeeper.response.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

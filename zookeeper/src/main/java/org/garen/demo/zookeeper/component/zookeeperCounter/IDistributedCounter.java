@@ -1,6 +1,6 @@
-package org.garen.demo.zookeeper.component;
+package org.garen.demo.zookeeper.component.zookeeperCounter;
 
-import org.garen.demo.zookeeper.component.entity.CounterResult;
+import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ public interface IDistributedCounter {
      * @author : Garen Gosling   2020/4/1 上午10:29
      *
      * @param counterName 计数器名称
-     * @Return org.garen.demo.zookeeper.component.entity.CounterResult
+     * @Return org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult
      **/
     CounterResult increment(String counterName);
 
@@ -31,7 +31,7 @@ public interface IDistributedCounter {
      * @author : Garen Gosling   2020/4/1 上午10:38
      *
      * @param counterName 计数器名称
-     * @Return org.garen.demo.zookeeper.component.entity.CounterResult
+     * @Return org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult
      **/
     CounterResult decrement(String counterName);
 
@@ -44,7 +44,7 @@ public interface IDistributedCounter {
      *
      * @param counterName 计数器名称
      * @param delta 加上的值
-     * @Return org.garen.demo.zookeeper.component.entity.CounterResult
+     * @Return org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult
      **/
     CounterResult add(String counterName, final Long delta);
 
@@ -57,7 +57,7 @@ public interface IDistributedCounter {
      *
      * @param counterName 计数器名称
      * @param delta 减去的值
-     * @Return org.garen.demo.zookeeper.component.entity.CounterResult
+     * @Return org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult
      **/
     CounterResult subtract(String counterName, final Long delta);
 
@@ -94,7 +94,7 @@ public interface IDistributedCounter {
      *
      * @param counterName 计数器名称
      * @param newValue 新值
-     * @Return org.garen.demo.zookeeper.component.entity.CounterResult
+     * @Return org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult
      **/
     CounterResult trySet(String counterName, final Long newValue);
 

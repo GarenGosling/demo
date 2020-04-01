@@ -1,6 +1,6 @@
-package org.garen.demo.zookeeper.component;
+package org.garen.demo.zookeeper.component.zookeeperCounter;
 
-import org.garen.demo.zookeeper.component.entity.CounterInfo;
+import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public interface IDistributedCounterGroup {
      * @author : Garen Gosling   2020/4/1 上午10:27
      *
      * @param
-     * @Return java.util.List<org.garen.demo.zookeeper.component.entity.CounterInfo>
+     * @Return java.util.List<org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo>
      **/
     List<CounterInfo> getCounterList();
 
