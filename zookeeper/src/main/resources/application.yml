@@ -4,3 +4,7 @@ server:
 spring:
   application:
     name: hatch
+
+zookeeper:
+  connectionString: 127.0.0.1
+  CounterBaseNode: /myCounter
