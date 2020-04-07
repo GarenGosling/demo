@@ -2,12 +2,11 @@ package org.garen.demo.zookeeper.component.zookeeperCounter.core;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.atomic.AtomicValue;
 import org.apache.curator.framework.recipes.atomic.DistributedAtomicLong;
-import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.retry.RetryNTimes;
-import org.apache.curator.utils.CloseableUtils;
+import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.data.Stat;
 import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo;
 import org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterResult;
@@ -39,6 +38,57 @@ public class BCounter {
 
     /**
      * <p>
+     * 功能描述 : zk节点赋值
+     * </p>
+     *
+     * @author : Garen Gosling   2020/4/3 上午11:30
+     *
+     * @param nodeName 节点名称
+     * @param value 值
+     * @Return void
+     **/
+    public void nodeSet(String nodeName, String value) throws Exception {
+        String nodePath = getNodePath(nodeName);
+        CuratorFramework client = ClientUtil.getClient(CONNECTION_STRING);
+        Stat existsNodeStat = client.checkExists().forPath(nodePath);
+        if(existsNodeStat == null){
+            client.create()
+                    .creatingParentsIfNeeded()//递归创建,如果没有父节点,自动创建父节点
+                    .withMode(CreateMode.PERSISTENT)//节点类型,持久节点
+                    .withACL(ZooDefs.Ids.OPEN_ACL_UNSAFE)//设置ACL,和原生API相同
+                    .forPath(nodePath, value.getBytes());
+        }else{
+            client.setData().forPath(nodePath, value.getBytes());
+        }
+        ClientUtil.closeClient(client);
+    }
+
+    /**
+     * <p>
+     * 功能描述 : zk节点取值
+     * </p>
+     *
+     * @author : Garen Gosling   2020/4/3 上午11:30
+     *
+     * @param nodeName 节点名称
+     * @Return java.lang.String
+     **/
+    public String nodeGet(String nodeName) throws Exception {
+        String nodePath = getNodePath(nodeName);
+        CuratorFramework client = ClientUtil.getClient(CONNECTION_STRING);
+        Stat existsNodeStat = client.checkExists().forPath(nodePath);
+        String value;
+        if(existsNodeStat == null){
+            value = null;
+        }else{
+            value = new String(client.getData().forPath(nodePath));
+        }
+        ClientUtil.closeClient(client);
+        return value;
+    }
+
+    /**
+     * <p>
      * 功能描述 : 创建计数器
      * </p>
      *
@@ -54,7 +104,7 @@ public class BCounter {
         if(b){
             addCounterToParentNode(cc.client, counterName, counterDesc);    // 父节点保存信息
         }
-        CloseableUtils.closeQuietly(cc.client);
+        ClientUtil.closeClient(cc.client);
         return b;
     }
 
@@ -70,7 +120,7 @@ public class BCounter {
      **/
     public boolean deleteCounter(String counterName) throws Exception {
         String nodePath = getNodePath(counterName);
-        CuratorFramework client = createStartClient();
+        CuratorFramework client = ClientUtil.getClient(CONNECTION_STRING);
         Stat stat = client.checkExists().forPath(nodePath);
         if(stat != null){
             client.delete().forPath(nodePath);
@@ -82,7 +132,7 @@ public class BCounter {
             deleteCounterFromParentNode(client, counterName);   // 父节点中删除计数器信息
         }
 
-        CloseableUtils.closeQuietly(client);
+        ClientUtil.closeClient(client);
         return b;
     }
 
@@ -98,7 +148,7 @@ public class BCounter {
      * @Return void
      **/
     public boolean updateCounter(String counterName, String counterDesc) throws Exception {
-        CuratorFramework client = createStartClient();
+        CuratorFramework client = ClientUtil.getClient(CONNECTION_STRING);
         List<CounterInfo> counterInfoList = getCounterListByParentNode(client, false);
         boolean b = false;
         if(!CollectionUtils.isEmpty(counterInfoList)){
@@ -110,7 +160,7 @@ public class BCounter {
                 }
             }
             counterListToParentNodeValue(client, counterInfoList);
-            CloseableUtils.closeQuietly(client);
+            ClientUtil.closeClient(client);
         }
         return b;
     }
@@ -126,9 +176,9 @@ public class BCounter {
      * @Return java.util.List<org.garen.demo.zookeeper.component.zookeeperCounter.entity.CounterInfo>
      **/
     public List<CounterInfo> getCounterList() throws Exception {
-        CuratorFramework client = createStartClient();
+        CuratorFramework client = ClientUtil.getClient(CONNECTION_STRING);
         List<CounterInfo> counterInfoList = getCounterListByParentNode(client, true);
-        CloseableUtils.closeQuietly(client);
+        ClientUtil.closeClient(client);
         return counterInfoList;
     }
 
@@ -156,7 +206,7 @@ public class BCounter {
             }
         }
         boolean result = cc.counter.initialize(initialize);
-        CloseableUtils.closeQuietly(cc.client);
+        ClientUtil.closeClient(cc.client);
         return result;
     }
 
@@ -182,7 +232,7 @@ public class BCounter {
         ClientCounter cc = getClientCounter(counterName);
         AtomicValue<Long> value = iCounter.count(cc.counter);
         CounterResult result = new CounterResult(value.succeeded(), value.preValue(), value.postValue());
-        CloseableUtils.closeQuietly(cc.client);
+        ClientUtil.closeClient(cc.client);
         return result;
     }
 
@@ -215,31 +265,10 @@ public class BCounter {
     public void forceSet(String counterName, Long newValue) throws Exception {
         ClientCounter cc = getClientCounter(counterName);
         cc.counter.forceSet(newValue);
-        CloseableUtils.closeQuietly(cc.client);
+        ClientUtil.closeClient(cc.client);
     }
 
-    /**
-     * <p>
-     * 功能描述 : 创建客户端，然后启动客户端
-     * </p>
-     *
-     * @author : Garen Gosling   2020/3/31 下午3:17
-     *
-     * @param
-     * @Return org.apache.curator.framework.CuratorFramework
-     **/
-    private CuratorFramework createStartClient() {
-        CuratorFramework client = CuratorFrameworkFactory
-                .builder()
-                .connectString(CONNECTION_STRING)
-                .sessionTimeoutMs(5 * 60 * 1000)
-                .connectionTimeoutMs(3000)
-                .retryPolicy(new ExponentialBackoffRetry(1000, 3))
-                .build();
-        log.debug("create client, name space : {}, hash code : {}", client.getNamespace(), client.hashCode());
-        client.start();
-        return client;
-    }
+
 
     /**
      * <p>
@@ -252,7 +281,7 @@ public class BCounter {
      * @Return org.garen.demo.zookeeper.component.zookeeperCounter.impl.DistributedCounter.ClientCounter
      **/
     private ClientCounter getClientCounter(String counterName) {
-        CuratorFramework client = createStartClient();
+        CuratorFramework client = ClientUtil.getClient(CONNECTION_STRING);
         DistributedAtomicLong counter = new DistributedAtomicLong(client, getNodePath(counterName), new RetryNTimes(10, 10));
         return new ClientCounter(client, counter);
     }
@@ -406,7 +435,5 @@ public class BCounter {
             this.counter = counter;
         }
     }
-
-
 
 }
