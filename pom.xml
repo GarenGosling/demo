@@ -18,8 +18,7 @@
 
     <modules>
         <module>zookeeper</module>
-        <module>java-core</module>
-        <module>java-advance</module>
+        <module>concurrency</module>
     </modules>
 
     <properties>
