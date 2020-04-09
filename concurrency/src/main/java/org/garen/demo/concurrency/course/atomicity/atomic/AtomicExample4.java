@@ -1,14 +1,9 @@
-package org.garen.demo.concurrency.course.atomic;
+package org.garen.demo.concurrency.course.atomicity.atomic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.garen.demo.concurrency.annotation.ThreadSafe;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.atomic.LongAdder;
 
 /**
  * <p>

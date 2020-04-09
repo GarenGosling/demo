@@ -1,11 +1,10 @@
-package org.garen.demo.concurrency.course.atomic;
+package org.garen.demo.concurrency.course.atomicity.atomic;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.garen.demo.concurrency.annotation.ThreadSafe;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>
