@@ -1,31 +1,31 @@
-package org.garen.demo.concurrency.course.visibility;
+package org.garen.demo.concurrency.course.threadSafety.atomicity.atomic;
 
 import lombok.extern.slf4j.Slf4j;
-import org.garen.demo.concurrency.annotation.NotThreadSafe;
+import org.garen.demo.concurrency.annotation.ThreadSafe;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>
- * 功能描述 : volatile 不具有原子性
+ * 功能描述 : AtomicInteger
  * </p>
  *
- * @author : Garen Gosling 2020/4/8 下午3:07
+ * @author : Garen Gosling 2020/4/8 下午4:21
  */
 @Slf4j
-@NotThreadSafe
-public class VolatileDemo1 {
-
+@ThreadSafe
+public class AtomicDemo1 {
     // 请求总数
     public static int clientTotal = 5000;
 
     // 同时并发执行的线程数
     public static int threadTotal = 200;
 
-    public static volatile int count = 0;
+    public static AtomicInteger count = new AtomicInteger(0);
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -45,9 +45,8 @@ public class VolatileDemo1 {
         }
         countDownLatch.await();
         executorService.shutdown();
-        log.info("count:{}", count);
+        log.info("count:{}", count.get());
     }
 
-    private static void add() {count++;}
-
+    private static void add() {count.incrementAndGet();}
 }

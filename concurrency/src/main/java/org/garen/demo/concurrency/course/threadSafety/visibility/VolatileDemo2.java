@@ -1,4 +1,4 @@
-package org.garen.demo.concurrency.course.visibility;
+package org.garen.demo.concurrency.course.threadSafety.visibility;
 
 import lombok.extern.slf4j.Slf4j;
 

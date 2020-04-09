@@ -1,4 +1,4 @@
-package org.garen.demo.concurrency.course.atomicity.atomic.atomicBoolean;
+package org.garen.demo.concurrency.course.threadSafety.atomicity.atomic.atomicBoolean;
 
 import lombok.extern.slf4j.Slf4j;
 import org.garen.demo.concurrency.annotation.NotThreadSafe;

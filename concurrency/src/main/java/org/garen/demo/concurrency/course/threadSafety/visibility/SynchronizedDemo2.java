@@ -1,4 +1,4 @@
-package org.garen.demo.concurrency.course.visibility;
+package org.garen.demo.concurrency.course.threadSafety.visibility;
 
 /**
  * <p>

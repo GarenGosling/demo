@@ -1,4 +1,4 @@
-package org.garen.demo.concurrency.course.atomicity.atomic;
+package org.garen.demo.concurrency.course.threadSafety.atomicity.atomic;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
