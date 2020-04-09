@@ -17,7 +17,7 @@ import java.util.concurrent.Semaphore;
  */
 @Slf4j
 @ThreadSafe
-public class SynchronizedExample3 {
+public class SynchronizedDemo3 {
 
     // 请求总数
     public static int clientTotal = 5000;

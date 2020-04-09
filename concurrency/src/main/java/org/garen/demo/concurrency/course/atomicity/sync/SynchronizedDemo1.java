@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
  * @author : Garen Gosling 2020/4/9 上午9:16
  */
 @Slf4j
-public class SynchronizedExample1 {
+public class SynchronizedDemo1 {
 
     /**
      * <p>
@@ -50,8 +50,8 @@ public class SynchronizedExample1 {
     }
 
     public static void main(String[] args) {
-        SynchronizedExample1 example1 = new SynchronizedExample1();
-        SynchronizedExample1 example2 = new SynchronizedExample1();
+        SynchronizedDemo1 example1 = new SynchronizedDemo1();
+        SynchronizedDemo1 example2 = new SynchronizedDemo1();
 
         ExecutorService executorService = Executors.newCachedThreadPool();
         // 修饰一个代码块

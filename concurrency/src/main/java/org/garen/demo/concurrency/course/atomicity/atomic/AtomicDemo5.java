@@ -30,15 +30,15 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  */
 @Slf4j
 @ThreadSafe
-public class AtomicExample5 {
+public class AtomicDemo5 {
 
     @Getter
     public volatile int count = 100;
 
-    private static final AtomicIntegerFieldUpdater<AtomicExample5> updater = AtomicIntegerFieldUpdater.newUpdater(AtomicExample5.class, "count");
+    private static final AtomicIntegerFieldUpdater<AtomicDemo5> updater = AtomicIntegerFieldUpdater.newUpdater(AtomicDemo5.class, "count");
 
     public static void main(String[] args) {
-        AtomicExample5 example5 = new AtomicExample5();
+        AtomicDemo5 example5 = new AtomicDemo5();
         if(updater.compareAndSet(example5, 100, 120)) {
             log.info("update success 1, {}", example5.count);
         }

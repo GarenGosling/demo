@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
  * @author : Garen Gosling 2020/4/9 上午9:16
  */
 @Slf4j
-public class SynchronizedExample2 {
+public class SynchronizedDemo2 {
 
     /**
      * <p>
@@ -26,7 +26,7 @@ public class SynchronizedExample2 {
      * @Return void
      **/
     public static void sync1(int j) {
-        synchronized (SynchronizedExample2.class) {
+        synchronized (SynchronizedDemo2.class) {
             for (int i = 0; i < 10; i++) {
                 log.info("test1 - {} - {}", j, i);
             }
@@ -50,8 +50,8 @@ public class SynchronizedExample2 {
     }
 
     public static void main(String[] args) {
-        SynchronizedExample2 example1 = new SynchronizedExample2();
-        SynchronizedExample2 example2 = new SynchronizedExample2();
+        SynchronizedDemo2 example1 = new SynchronizedDemo2();
+        SynchronizedDemo2 example2 = new SynchronizedDemo2();
 
         ExecutorService executorService = Executors.newCachedThreadPool();
         // 修饰类

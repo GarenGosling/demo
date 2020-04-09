@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @Slf4j
 @ThreadSafe
-public class AtomicExample4 {
+public class AtomicDemo4 {
 
     private static AtomicReference<Integer> count = new AtomicReference<>(0);
 
