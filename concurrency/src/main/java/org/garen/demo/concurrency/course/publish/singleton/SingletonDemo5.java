@@ -1,6 +1,5 @@
 package org.garen.demo.concurrency.course.publish.singleton;
 
-import org.garen.demo.concurrency.annotation.Recommend;
 import org.garen.demo.concurrency.annotation.ThreadSafe;
 
 /**
