@@ -39,7 +39,7 @@ public class ClientUtil {
                     CloseableUtils.closeQuietly(client);    // 关闭连接，源码有对client判空，所以放心传null
                     client = getClient(connectionString);
                     client.start();
-                    // 循环3次检测是否已连接，如果10次后还是没有连接，则抛出异常
+                    // 循环检测是否已连接，如果20s后还是没有连接，则抛出异常
                     for(int i=1;i<=200;i++){
                         if(client.getZookeeperClient().isConnected()) {    // 已连接
                             log.info("== zk connection success ==");
