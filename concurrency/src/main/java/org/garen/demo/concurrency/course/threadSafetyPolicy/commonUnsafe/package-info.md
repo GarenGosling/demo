@@ -7,3 +7,5 @@
 * SimpleDateFormat -> JodaTime
 
 * ArrayList, HashSet, HashMap 等 Collections
+
+* 先检查再执行：if(condition(a)){handle(a);}  多线程共享，线程不安全，要考虑加锁，或者两个操作是原子的
