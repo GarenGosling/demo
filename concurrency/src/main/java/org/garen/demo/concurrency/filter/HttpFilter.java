@@ -1,7 +1,7 @@
 package org.garen.demo.concurrency.filter;
 
 import lombok.extern.slf4j.Slf4j;
-import org.garen.demo.concurrency.course1.threadSafetyPolicy.threadLocal.RequestHolder;
+import org.garen.demo.concurrency.course.threadSafetyPolicy.threadLocal.RequestHolder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
