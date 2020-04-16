@@ -30,6 +30,12 @@
 
 # HashMap 与 ConcurrentHashMap
 
+* HashMap 在多线程环境下扩容，容易产生死循环
+
+* concurrentHashMap在1.7前为了增加并发度，引入了Segment，segment里是链表数组，继承ReentrantLockLock使用分段锁，最大并发数==segment数
+
+* concurrentHashMap在1.8废弃了分段锁，直接使用大数组，超过8，链表换成红黑树，提高并发数
+
 # 多线程并发与线程安全总结
 
 
