@@ -23,7 +23,7 @@ public class Config {
      * 基础节点
      * 课程中使用的节点都是这个节点的子节点
      */
-    public static final String BASE_NODE_PATH = "/course";
+    public static final String BASE_NODE_PATH = "/course1";
 
     /**
      * 节点分隔符

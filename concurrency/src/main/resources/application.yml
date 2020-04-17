@@ -4,3 +4,9 @@ server:
 spring:
   application:
     name: concurrency
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: xxx
+  database: 0
