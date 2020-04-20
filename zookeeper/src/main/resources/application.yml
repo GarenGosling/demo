@@ -6,5 +6,5 @@ spring:
     name: hatch
 
 zookeeper:
-  connectionString: 127.0.0.1
+  connectionString: 192.168.24.93
   CounterBaseNode: /myCounter
