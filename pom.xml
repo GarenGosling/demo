@@ -19,7 +19,6 @@
     <modules>
         <module>zookeeper</module>
         <module>concurrency</module>
-        <module>maven</module>
     </modules>
 
     <properties>
