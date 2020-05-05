@@ -20,6 +20,7 @@
         <module>zookeeper</module>
         <module>concurrency</module>
         <module>distributed</module>
+        <module>http</module>
     </modules>
 
     <properties>
