@@ -14,7 +14,7 @@ public class HelloController {
     @ApiOperation(value="测试")
     @RequestMapping(value = "test", method = RequestMethod.GET)
     public String hello() {
-        return "test";
+        return "restTemplate";
     }
 
 }

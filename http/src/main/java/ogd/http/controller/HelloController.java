@@ -61,7 +61,7 @@ public class HelloController {
 
     @RequestMapping(value = "/file", method = RequestMethod.POST)
     public String file(@RequestParam MultipartFile file, String name) {
-        return file.getName() + "--" + name;
+        return file.getOriginalFilename() + "--" + name;
     }
 
 }
