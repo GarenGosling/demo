@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author jinpin
  */
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AskController {
 
     @PostMapping("answer")
-    public DataResult answer(@RequestParam(value = "question") String question) {
-        log.info("question: {}", question);
-        return DataResultUtil.ofSuccess("This is an answer for the question");
+    public DataResult answer(@RequestParam(value = "question") String question, HttpServletRequest request) {
+        request.getRemoteHost();
+        request.getRemotePort();
+        log.info("question: {}, port: {}", question, request.getServerPort());
+        String sb = "This is an answer for the question, port: " + request.getServerPort();
+        return DataResultUtil.ofSuccess(sb);
     }
 }
