@@ -21,6 +21,7 @@
         <module>concurrency</module>
         <module>distributed</module>
         <module>http</module>
+        <module>controllers</module>
     </modules>
 
     <properties>
