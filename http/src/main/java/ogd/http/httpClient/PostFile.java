@@ -1,6 +1,7 @@
 package ogd.http.httpClient;
 
 import lombok.extern.slf4j.Slf4j;
+import ogd.http.entity.Base;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -24,7 +25,7 @@ import java.nio.charset.StandardCharsets;
  * @author : Garen Gosling 2020/5/5 下午5:48
  */
 @Slf4j
-public class PostFile extends Base{
+public class PostFile extends Base {
 
     private static void send() {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();

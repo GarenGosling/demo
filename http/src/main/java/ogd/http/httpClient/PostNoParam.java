@@ -1,6 +1,7 @@
 package ogd.http.httpClient;
 
 import lombok.extern.slf4j.Slf4j;
+import ogd.http.entity.Base;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;

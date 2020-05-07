@@ -1,6 +1,7 @@
 package ogd.http.httpClient;
 
 import lombok.extern.slf4j.Slf4j;
+import ogd.http.entity.Base;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -18,7 +19,7 @@ import java.io.IOException;
  * @author : Garen Gosling 2020/5/5 上午10:46
  */
 @Slf4j
-public class GetNoParam extends Base{
+public class GetNoParam extends Base {
 
     private static void send() {
         // 获得Http客户端(可以理解为:你得先有一个浏览器;注意:实际上HttpClient与浏览器是不一样的)

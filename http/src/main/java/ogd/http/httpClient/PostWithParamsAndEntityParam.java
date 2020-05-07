@@ -2,6 +2,7 @@ package ogd.http.httpClient;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import ogd.http.entity.Base;
 import ogd.http.entity.Hello;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
