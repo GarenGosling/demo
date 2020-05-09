@@ -19,6 +19,7 @@ import lombok.ToString;
 public class Answer {
     private Integer aiAppId;
     private String aiAppName;
+    private String aiAppArithmetic;
     private Integer engineId;
     private String engineName;
     private Integer engineType;
@@ -26,6 +27,5 @@ public class Answer {
     private String serverName;
     private String ip;
     private Integer port;
-    private String Arithmetic;
     private String answer;
 }

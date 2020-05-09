@@ -3,8 +3,6 @@ package ogd.dispatcher.arithmetic;
 import ogd.dispatcher.model.Engine;
 import ogd.dispatcher.model.Server;
 
-import java.util.List;
-
 /**
  * <p>
  * 功能描述 : 算法接口

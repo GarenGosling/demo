@@ -1,6 +1,8 @@
 package ogd.dispatcher.config;
 
 import ogd.dispatcher.model.AiApp;
+import ogd.dispatcher.response.BusinessException;
+
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -70,7 +72,7 @@ public class DispatcherConfig {
                 if(allowDefaultConfig) {
                     aiAppList = new DefaultConfig().initAiAppList();
                 }else {
-                    throw new RuntimeException("配置列表不能为空");
+                    throw new BusinessException("配置列表不能为空");
                 }
             }
             return aiAppList;

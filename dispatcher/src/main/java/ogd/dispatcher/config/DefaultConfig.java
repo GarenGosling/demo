@@ -1,5 +1,6 @@
 package ogd.dispatcher.config;
 
+import ogd.dispatcher.arithmetic.ArithmeticEnum;
 import ogd.dispatcher.model.AiApp;
 import ogd.dispatcher.model.Engine;
 import ogd.dispatcher.model.Server;
@@ -27,15 +28,15 @@ public class DefaultConfig {
      **/
     public List<AiApp> initAiAppList() {
         // servers
-        Server server1 = createDefaultServer(1, "192.168.24.93", 8091, 2);
+        Server server1 = createDefaultServer(1, "192.168.24.93", 8091, 40);
         Server server2 = createDefaultServer(2, "192.168.24.93", 8092, 5);
-        Server server3 = createDefaultServer(3, "192.168.24.93", 8093, 8);
-        Server server4 = createDefaultServer(4, "192.168.24.93", 8094, 3);
-        Server server5 = createDefaultServer(5, "192.168.24.93", 8095, 2);
-        Server server6 = createDefaultServer(6, "192.168.24.93", 8096, 6);
-        Server server7 = createDefaultServer(7, "192.168.24.93", 8097, 1);
+        Server server3 = createDefaultServer(3, "192.168.24.93", 8093, 1);
+        Server server4 = createDefaultServer(4, "192.168.24.93", 8094, 40);
+        Server server5 = createDefaultServer(5, "192.168.24.93", 8095, 5);
+        Server server6 = createDefaultServer(6, "192.168.24.93", 8096, 1);
+        Server server7 = createDefaultServer(7, "192.168.24.93", 8097, 40);
         Server server8 = createDefaultServer(8, "192.168.24.93", 8098, 5);
-        Server server9 = createDefaultServer(9, "192.168.24.93", 8099, 9);
+        Server server9 = createDefaultServer(9, "192.168.24.93", 8099, 1);
         // serverLists
         List<Server> serverList1 = new ArrayList<>();
         List<Server> serverList2 = new ArrayList<>();
@@ -82,6 +83,7 @@ public class DefaultConfig {
         aiApp.setId(id);
         aiApp.setName("默认应用");
         aiApp.setDescription("开发阶段使用的默认应用");
+        aiApp.setArithmetic(ArithmeticEnum.POLLING.name());     // 算法
         aiApp.setEngineList(engineList);
         return aiApp;
     }

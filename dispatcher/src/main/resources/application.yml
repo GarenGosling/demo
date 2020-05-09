@@ -1,3 +1,0 @@
-dispatcher:
-  # RANDOM(随机)、WEIGHT_RANDOM(加权随机)、POLLING(轮询)
-  arithmetic: POLLING

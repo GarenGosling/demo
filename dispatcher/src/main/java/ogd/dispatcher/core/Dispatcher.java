@@ -1,17 +1,14 @@
 package ogd.dispatcher.core;
 
 import lombok.extern.slf4j.Slf4j;
-import ogd.dispatcher.arithmetic.IArithmetic;
-import ogd.dispatcher.arithmetic.PollingImpl;
-import ogd.dispatcher.arithmetic.RandomImpl;
-import ogd.dispatcher.arithmetic.WeightRandomImpl;
+import ogd.dispatcher.arithmetic.*;
 import ogd.dispatcher.config.DispatcherConfig;
 import ogd.dispatcher.model.AiApp;
 import ogd.dispatcher.model.Answer;
 import ogd.dispatcher.model.Engine;
 import ogd.dispatcher.model.Server;
+import ogd.dispatcher.response.BusinessException;
 import ogd.dispatcher.response.DataResult;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -33,9 +30,6 @@ import java.util.concurrent.*;
 @Component
 public class Dispatcher {
 
-    @Value("${dispatcher.arithmetic}")
-    String DISPATCHER_ARITHMETIC;
-
     @Resource
     RestTemplate restTemplate;
 
@@ -50,10 +44,10 @@ public class Dispatcher {
      * @Return void
      **/
     public Answer execute(int aiAppId, String question) {
-        // 算法
-        IArithmetic iArithmetic = getArithmetic();
         // 应用
         AiApp aiApp = getById(aiAppId);
+        // 算法
+        IArithmetic iArithmetic = getArithmetic(ArithmeticEnum.valueOf(aiApp.getArithmetic()));
         // 引擎列表
         List<Engine> engineList = aiApp.getEngineList();
         // 答案列表
@@ -80,17 +74,20 @@ public class Dispatcher {
                     }
                 });
                 // 答案
-                answerList.add(new Answer(aiApp.getId(), aiApp.getName(), engine.getId(), engine.getName(), engine.getType(), server.getId(), server.getName(), server.getIp(), server.getPort(), DISPATCHER_ARITHMETIC, future.get()));
+                answerList.add(new Answer(aiApp.getId(), aiApp.getName(), aiApp.getArithmetic(), engine.getId(), engine.getName(), engine.getType(), server.getId(), server.getName(), server.getIp(), server.getPort(), future.get()));
             }
             service.shutdown(); // shutdown方法：平滑的关闭ExecutorService，当此方法被调用时，ExecutorService停止接收新的任务并且等待已经提交的任务（包含提交正在执行和提交未执行）执行完成。当所有提交任务执行完毕，线程池即被关闭。
             service.awaitTermination(1, TimeUnit.MINUTES);  // awaitTermination方法：接收人timeout和TimeUnit两个参数，用于设定超时时间及单位。当等待超过设定时间时，会监测ExecutorService是否已经关闭，若关闭则返回true，否则返回false。一般情况下会和shutdown方法组合使用。
             // 选择答案
             log.info("answerList: {}", answerList);
             return chooseAnswer(answerList);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (BusinessException e){
+            throw new BusinessException(e.getMessage());
+        } catch (Exception e) {
+            RuntimeException e1 = new RuntimeException(e);
+            e1.initCause(e);
+            throw e1;
         }
-        return null;
     }
 
     /**
@@ -139,29 +136,7 @@ public class Dispatcher {
                 return aiApp;
             }
         }
-        throw new RuntimeException("没有与之对应的应用，aiAppId: " + aiAppId);
-    }
-
-    /**
-     * <p>
-     * 功能描述 : 算法枚举
-     * </p>
-     *
-     * @author : Garen Gosling 2020/5/8 下午6:01
-     */
-    private enum ArithmeticEnum {
-        /**
-         * 随机
-         */
-        RANDOM,
-        /**
-         * 加权随机
-         */
-        WEIGHT_RANDOM,
-        /**
-         * 轮询
-         */
-        POLLING
+        throw new BusinessException("没有与之对应的应用，aiAppId: " + aiAppId);
     }
 
     /**
@@ -174,8 +149,7 @@ public class Dispatcher {
      * @param
      * @Return ogd.dispatcher.arithmetic.IArithmetic
      **/
-    private IArithmetic getArithmetic() {
-        ArithmeticEnum arithmeticEnum = ArithmeticEnum.valueOf(DISPATCHER_ARITHMETIC);
+    private IArithmetic getArithmetic(ArithmeticEnum arithmeticEnum) {
         IArithmetic iArithmetic = null;
         switch (arithmeticEnum) {
             case RANDOM:

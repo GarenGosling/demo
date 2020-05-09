@@ -32,6 +32,10 @@ public class AiApp {
      */
     private String description;
     /**
+     * 算法
+     */
+    private String arithmetic;
+    /**
      * 引擎列表
      */
     private List<Engine> engineList;
