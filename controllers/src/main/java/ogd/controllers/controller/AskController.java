@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Random;
 
 /**
  * @author jinpin
@@ -23,7 +24,10 @@ public class AskController {
         request.getRemoteHost();
         request.getRemotePort();
         log.info("question: {}, port: {}", question, request.getServerPort());
-        String sb = "This is an answer for the question, port: " + request.getServerPort();
+        String sb = null;
+        if(new Random().nextBoolean()){
+            sb = "This is an answer for the question, port: " + request.getServerPort();
+        }
         return DataResultUtil.ofSuccess(sb);
     }
 }
