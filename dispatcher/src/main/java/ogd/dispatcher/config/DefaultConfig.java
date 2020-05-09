@@ -17,6 +17,11 @@ import java.util.List;
  */
 public class DefaultConfig {
     /**
+     * 算法，应用对象的字段，放在这里为了测试，切换算法方便
+     */
+    private ArithmeticEnum arithmeticEnum = ArithmeticEnum.RANDOM;
+
+    /**
      * <p>
      * 功能描述 : 初始化
      * </p>
@@ -83,7 +88,7 @@ public class DefaultConfig {
         aiApp.setId(id);
         aiApp.setName("默认应用");
         aiApp.setDescription("开发阶段使用的默认应用");
-        aiApp.setArithmetic(ArithmeticEnum.POLLING.name());     // 算法
+        aiApp.setArithmetic(arithmeticEnum.name());     // 算法
         aiApp.setEngineList(engineList);
         return aiApp;
     }
