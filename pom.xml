@@ -23,6 +23,7 @@
         <module>http</module>
         <module>controllers</module>
         <module>dispatcher</module>
+        <module>berkeleyDB</module>
     </modules>
 
     <properties>
