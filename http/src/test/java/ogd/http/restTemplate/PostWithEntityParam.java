@@ -1,10 +1,8 @@
 package ogd.http.restTemplate;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import ogd.http.entity.Base;
 import ogd.http.entity.Hello;
-import org.apache.http.entity.StringEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,7 @@
 package ogdd.sessionDistributed.noRepeatSubmit;
 
 import ogdd.sessionDistributed.session.SessionInfo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -21,8 +19,20 @@ public class NoRepeatSubmitController {
 
     @NoRepeatSubmitAnnotation
     @GetMapping("/noRepeat")
-    public Map<String,Object> noRepeat(HttpServletRequest request){
-       return SessionInfo.getInfo(request);
+    public Map<String,Object> noRepeat(HttpServletRequest request, @RequestParam String testArg){
+        return SessionInfo.getInfo(request);
+    }
+
+    @NoRepeatSubmitAnnotation
+    @PostMapping("/noRepeat2")
+    public Map<String,Object> noRepeat2(HttpServletRequest request, @RequestParam String testArg, @RequestBody ReqVo testVo){
+        return SessionInfo.getInfo(request);
+    }
+
+    @NoRepeatSubmitAnnotation
+    @PostMapping("/noRepeat3")
+    public Map<String,Object> noRepeat3(HttpServletRequest request, @RequestHeader String token){
+        return SessionInfo.getInfo(request);
     }
 
     @GetMapping("/repeat")

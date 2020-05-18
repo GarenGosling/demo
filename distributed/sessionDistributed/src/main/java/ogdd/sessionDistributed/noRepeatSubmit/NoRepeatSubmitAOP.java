@@ -1,18 +1,27 @@
 package ogdd.sessionDistributed.noRepeatSubmit;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +31,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author : Garen Gosling 2020/4/27 下午6:02
  */
+@Slf4j
 @Aspect
 @Configuration
 public class NoRepeatSubmitAOP {
@@ -63,8 +73,8 @@ public class NoRepeatSubmitAOP {
     @Around(value = "myPointcut()")
     public Object doAroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String cacheKey = getCacheKey(proceedingJoinPoint); // 获取缓存key
-        noRepeatSubmit(cacheKey);    // 禁止重复提交
-//        Thread.sleep(2000);     // 测试用，真正使用的时候要删除 TODO
+        noRepeatSubmit(cacheKey, proceedingJoinPoint);    // 禁止重复提交
+//        Thread.sleep(2000);     // 测试用，真正使用的时候要删除
         Object o = proceedingJoinPoint.proceed();   // 执行方法
         stringRedisTemplate.delete(cacheKey);  // 删除缓存
         return o;
@@ -80,10 +90,30 @@ public class NoRepeatSubmitAOP {
      * @param cacheKey 缓存key
      * @Return void
      **/
-    private void noRepeatSubmit(String cacheKey) {
+    private void noRepeatSubmit(String cacheKey, ProceedingJoinPoint proceedingJoinPoint) {
         synchronized (this) {   // 从redis中取值、判断、存值的过程，有并发安全问题，因此加锁
             String value = stringRedisTemplate.opsForValue().get(cacheKey); // redis中取值
-            if(!StringUtils.isEmpty(value)) throw new RuntimeException("请勿重复提交");
+            if(!StringUtils.isEmpty(value)) {
+                Object[] args = proceedingJoinPoint.getArgs();
+                List list = new ArrayList<>();
+                if(args == null){
+                    log.error("repeat request params: null");
+                }else {
+                    for(Object obj : args){
+                        if(obj instanceof HttpServletRequest || obj instanceof HttpServletResponse || obj instanceof RequestHeader) {
+                            continue;
+                        }
+                        list.add(obj);
+                    }
+                }
+                if(CollectionUtils.isEmpty(list)){
+                    log.error("repeat request, method name: {}, params: null", proceedingJoinPoint.getSignature().getName());
+                }else{
+                    String methodName = proceedingJoinPoint.getSignature().getDeclaringTypeName() + JOINT_SYMBOL + proceedingJoinPoint.getSignature().getName();
+                    log.error("repeat request, method name: {}, params: {}", methodName, JSONArray.toJSON(list));
+                }
+                throw new RuntimeException("请勿重复提交");
+            }
             stringRedisTemplate.opsForValue().set(cacheKey, "0", 10L, TimeUnit.MINUTES);    // 过期时间：10分钟
         }
     }
