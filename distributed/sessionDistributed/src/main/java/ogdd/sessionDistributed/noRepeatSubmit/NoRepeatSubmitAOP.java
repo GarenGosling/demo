@@ -75,8 +75,12 @@ public class NoRepeatSubmitAOP {
         String cacheKey = getCacheKey(proceedingJoinPoint); // 获取缓存key
         noRepeatSubmit(cacheKey, proceedingJoinPoint);    // 禁止重复提交
 //        Thread.sleep(2000);     // 测试用，真正使用的时候要删除
-        Object o = proceedingJoinPoint.proceed();   // 执行方法
-        stringRedisTemplate.delete(cacheKey);  // 删除缓存
+        Object o = null;
+        try {
+            o = proceedingJoinPoint.proceed();   // 执行方法
+        }finally {
+            stringRedisTemplate.delete(cacheKey);  // 删除缓存
+        }
         return o;
     }
 
