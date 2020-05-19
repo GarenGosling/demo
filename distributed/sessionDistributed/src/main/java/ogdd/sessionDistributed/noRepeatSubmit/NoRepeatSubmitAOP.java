@@ -205,7 +205,7 @@ public class NoRepeatSubmitAOP {
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
-        String sessionId = request.getRequestedSessionId();
+        String sessionId = request.getSession().getId();
         sb.append(JOINT_SYMBOL);
         sb.append(sessionId);
     }
