@@ -1,7 +1,5 @@
-package ogd.berkeleyDB.easyDPL.mapper;
+package ogd.berkeleyDB.easyDPL.core;
 
-import ogd.berkeleyDB.easyDPL.core.DplTemplate;
-import ogd.berkeleyDB.easyDPL.core.ICurdHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

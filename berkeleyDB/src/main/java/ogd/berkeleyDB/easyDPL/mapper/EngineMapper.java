@@ -1,5 +1,6 @@
 package ogd.berkeleyDB.easyDPL.mapper;
 
+import ogd.berkeleyDB.easyDPL.core.IBaseMapper;
 import ogd.berkeleyDB.easyDPL.entity.Engine;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Component;
  * @author : Garen Gosling 2020/5/23 下午12:05
  */
 @Component
-public class EngineMapper extends IBaseMapper<String, Engine>{
+public class EngineMapper extends IBaseMapper<String, Engine> {
 
 }
