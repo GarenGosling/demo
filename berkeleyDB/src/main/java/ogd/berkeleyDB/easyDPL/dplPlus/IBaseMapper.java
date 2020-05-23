@@ -1,6 +1,5 @@
 package ogd.berkeleyDB.easyDPL.dplPlus;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -16,9 +15,6 @@ import java.util.UUID;
  */
 @Component
 public class IBaseMapper<PK, E> {
-
-    @Value("${BerkeleyDB.entityPackage}")
-    private String BDB_ENTITY_PACKAGE;
 
     @Resource
     DplTemplate dplTemplate;
