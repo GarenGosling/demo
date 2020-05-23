@@ -1,4 +1,4 @@
-package ogd.berkeleyDB.easyDPL.core;
+package ogd.berkeleyDB.easyDPL.dplPlus;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

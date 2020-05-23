@@ -1,6 +1,6 @@
 package ogd.berkeleyDB.easyDPL.mapper;
 
-import ogd.berkeleyDB.easyDPL.core.IBaseMapper;
+import ogd.berkeleyDB.easyDPL.dplPlus.IBaseMapper;
 import ogd.berkeleyDB.easyDPL.entity.Engine;
 import org.springframework.stereotype.Component;
 
