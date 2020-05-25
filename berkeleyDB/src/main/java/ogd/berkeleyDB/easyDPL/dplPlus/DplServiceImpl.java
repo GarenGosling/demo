@@ -1,9 +1,5 @@
-package ogd.berkeleyDB.easyDPL.dplPlus.bs;
+package ogd.berkeleyDB.easyDPL.dplPlus;
 
-import ogd.berkeleyDB.easyDPL.dplPlus.core.DplPlus;
-import ogd.berkeleyDB.easyDPL.dplPlus.core.Page;
-import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandler;
-import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandlerT;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -48,37 +44,10 @@ public class DplServiceImpl<PK, E> implements IDplService<PK, E> {
         return dplPlus.list(getPKClass(), getEClass());
     }
 
-    public <T> Page<T> pageAll(Integer current, Integer size, List<T> list) {
-        return dplPlus.page(current, size, list);
-    }
+    public <T> Page<T> pageAll(Integer current, Integer size, List<T> list) { return dplPlus.page(current, size, list); }
 
-    /**
-     * <p>
-     * 功能描述 : 通用方法，有事务
-     * </p>
-     *
-     * @author : Garen Gosling   2020/5/23 下午3:02
-     *
-     * @param iCurdHandlerT 自定义数据库操作接口（lambda表达式）
-     * @Return T 返回类型
-     **/
-    public <T> T executeT(ICurdHandlerT<T> iCurdHandlerT) {
-        return dplPlus.executeT(iCurdHandlerT);
-    }
+    public <T> T execute(ICurdHandler<T> iCurdHandler) { return dplPlus.execute(iCurdHandler); }
 
-    /**
-     * <p>
-     * 功能描述 : 通用方法，无事务
-     * </p>
-     *
-     * @author : Garen Gosling   2020/5/25 上午9:34
-     *
-     * @param iCurdHandler 自定义数据库操作接口（lambda表达式）
-     * @Return T 返回类型
-     **/
-    public <T> T execute(ICurdHandler<T> iCurdHandler) {
-        return dplPlus.execute(iCurdHandler);
-    }
 
     /**
      * <p>

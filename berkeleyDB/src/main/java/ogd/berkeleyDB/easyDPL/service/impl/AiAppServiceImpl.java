@@ -1,6 +1,6 @@
 package ogd.berkeleyDB.easyDPL.service.impl;
 
-import ogd.berkeleyDB.easyDPL.dplPlus.bs.DplServiceImpl;
+import ogd.berkeleyDB.easyDPL.dplPlus.DplServiceImpl;
 import ogd.berkeleyDB.easyDPL.entity.AiApp;
 import ogd.berkeleyDB.easyDPL.service.IAiAppService;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AiAppServiceImpl extends DplServiceImpl<String, AiApp> implements IAiAppService {
-
-
 
 }

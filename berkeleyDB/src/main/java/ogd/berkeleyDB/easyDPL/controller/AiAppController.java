@@ -1,7 +1,7 @@
 package ogd.berkeleyDB.easyDPL.controller;
 
-import ogd.berkeleyDB.easyDPL.dplPlus.core.Page;
-import ogd.berkeleyDB.easyDPL.dplPlus.util.PkUtils;
+import ogd.berkeleyDB.easyDPL.dplPlus.Page;
+import ogd.berkeleyDB.easyDPL.dplPlus.PkUtils;
 import ogd.berkeleyDB.easyDPL.entity.AiApp;
 import ogd.berkeleyDB.easyDPL.service.IAiAppService;
 import ogd.berkeleyDB.response.DataResult;

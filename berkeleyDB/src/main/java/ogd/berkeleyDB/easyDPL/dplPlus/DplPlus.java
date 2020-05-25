@@ -1,4 +1,4 @@
-package ogd.berkeleyDB.easyDPL.dplPlus.core;
+package ogd.berkeleyDB.easyDPL.dplPlus;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
@@ -6,9 +6,6 @@ import com.sleepycat.je.LockMode;
 import com.sleepycat.je.Transaction;
 import com.sleepycat.persist.*;
 import lombok.extern.slf4j.Slf4j;
-import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandler;
-import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandlerT;
-import ogd.berkeleyDB.easyDPL.dplPlus.util.MyBeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -34,15 +31,15 @@ public class DplPlus {
 
     /**
      * <p>
-     * 功能描述 : 通用方法，事务
+     * 功能描述 : 通用方法，有事务
      * </p>
      *
      * @author : Garen Gosling   2020/5/23 下午3:02
      *
-     * @param iCurdHandlerT 自定义数据库操作接口（lambda表达式）
+     * @param iCurdHandler 自定义数据库操作接口（lambda表达式）
      * @Return T 返回类型
      **/
-    public <T> T executeT(ICurdHandlerT<T> iCurdHandlerT) {
+    <T> T execute(ICurdHandler<T> iCurdHandler) {
         Environment env;
         EntityStore store = null;
         Transaction txn = null;
@@ -53,35 +50,12 @@ public class DplPlus {
             store = getStore();
             // 事务
             txn = env.beginTransaction(null, null);
-            T t = iCurdHandlerT.curdT(store, txn);
+            T t = iCurdHandler.curdT(store, txn);
             txn.commit();
             return t;
         }catch (Exception e) {
             e.printStackTrace();
             if(txn != null) txn.abort();
-            throw e;
-        }finally {
-            closeStore(store);
-        }
-    }
-
-    /**
-     * <p>
-     * 功能描述 : 通用方法，无事务
-     * </p>
-     *
-     * @author : Garen Gosling   2020/5/25 上午9:32
-     *
-     * @param iCurdHandler 自定义数据库操作接口（lambda表达式）
-     * @Return T 返回类型
-     **/
-    public <T> T execute(ICurdHandler<T> iCurdHandler) {
-        EntityStore store = null;
-        try {
-            store = getStore();
-            return iCurdHandler.curd(store);
-        }catch (Exception e) {
-            e.printStackTrace();
             throw e;
         }finally {
             closeStore(store);
@@ -101,9 +75,9 @@ public class DplPlus {
      * @param pk 主键
      * @Return E 实体
      **/
-    public <PK, E> E getByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
+    <PK, E> E getByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
         EntityStore store = getStore();
-        PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
+            PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         E e = pi.get(pk);
         closeStore(store);
         return e;
@@ -122,17 +96,17 @@ public class DplPlus {
      * @param entity 实体
      * @Return void
      **/
-    public <PK, E> E save(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
+    <PK, E> E save(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
         EntityStore store = getStore();
-        PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
+            PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         E e = pi.get(pk);
         if(e != null) {
             closeStore(store);
             throw new RuntimeException("保存失败：对象已存在");
         }
-        pi.put(entity);
+            pi.put(entity);
         closeStore(store);
-        return entity;
+            return entity;
     }
 
     /**
@@ -147,7 +121,7 @@ public class DplPlus {
      * @param pk 主键
      * @Return void
      **/
-    public <PK, E> void deleteByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
+    <PK, E> void deleteByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
         EntityStore store = getStore();
         PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         pi.delete(pk);
@@ -167,8 +141,8 @@ public class DplPlus {
      * @param entity 实体
      * @Return void
      **/
-    public <PK, E> E update(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
-        return executeT(((store, txn) -> {
+    <PK, E> E update(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
+        return execute(((store, txn) -> {
             PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
             // 查
             E e = pi.get(txn, pk, LockMode.DEFAULT);
@@ -195,19 +169,19 @@ public class DplPlus {
      * @param entityClass 实体类
      * @Return java.util.List<E>
      **/
-    public <PK, E> List<E> list(Class<PK> primaryKeyClass, Class<E> entityClass) {
+    <PK, E> List<E> list(Class<PK> primaryKeyClass, Class<E> entityClass) {
         EntityStore store = getStore();
-        PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
-        EntityCursor<E> entities = pi.entities();
-        List<E> list = new ArrayList<>();
-        try {
-            for (E e : entities) {
-                list.add(e);
+            PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
+            EntityCursor<E> entities = pi.entities();
+            List<E> list = new ArrayList<>();
+            try {
+                for (E e : entities) {
+                    list.add(e);
+                }
+            } finally {
+                entities.close();
             }
-        } finally {
-            entities.close();
-        }
-        return list;
+            return list;
     }
 
     /**
@@ -215,13 +189,14 @@ public class DplPlus {
      * 功能描述 : 分页
      * </p>
      *
-     * @author : Garen Gosling   2020/5/25 下午12:03
+     * @author : Garen Gosling   2020/5/25 下午4:43
      *
-     * @param page 分页对象
+     * @param current 当前索引
+     * @param size 每页数量
      * @param list 源数据集合
-     * @Return ogd.berkeleyDB.easyDPL.dplPlus.core.Page<T>
+     * @Return ogd.berkeleyDB.easyDPL.dplPlus.Page<T>
      **/
-    public <T> Page<T> page(Integer current, Integer size, List<T> list) {
+    <T> Page<T> page(Integer current, Integer size, List<T> list) {
         if(current == null) current = 0;
         if(size == null) size = 10;
         return new Page<>(current, size, list);

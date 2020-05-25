@@ -1,4 +1,4 @@
-package ogd.berkeleyDB.easyDPL.dplPlus.core;
+package ogd.berkeleyDB.easyDPL.dplPlus;
 
 import lombok.*;
 import org.springframework.util.CollectionUtils;
