@@ -1,5 +1,6 @@
 package ogd.berkeleyDB.easyDPL.controller;
 
+import ogd.berkeleyDB.easyDPL.dplPlus.core.Page;
 import ogd.berkeleyDB.easyDPL.dplPlus.util.PkUtils;
 import ogd.berkeleyDB.easyDPL.entity.Server;
 import ogd.berkeleyDB.easyDPL.service.IServerService;
@@ -44,9 +45,16 @@ public class ServerController {
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, null);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public DataResult list() {
-        List<Server> result = serverService.list();
+    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
+    public DataResult listAll() {
+        List<Server> result = serverService.listAll();
+        return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
+    }
+
+    @RequestMapping(value = "/pageAll", method = RequestMethod.GET)
+    public DataResult pageAll(@RequestParam(required = false, value = "dataIndex") Integer dataIndex,
+                           @RequestParam(required = false, value = "pageSize") Integer pageSize) {
+        Page<Server> result = serverService.pageAll(dataIndex, pageSize, serverService.listAll());
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 

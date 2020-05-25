@@ -1,6 +1,7 @@
 package ogd.berkeleyDB.easyDPL.dplPlus.bs;
 
 import ogd.berkeleyDB.easyDPL.dplPlus.core.DplPlus;
+import ogd.berkeleyDB.easyDPL.dplPlus.core.Page;
 import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandler;
 import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandlerT;
 import org.springframework.stereotype.Component;
@@ -43,8 +44,12 @@ public class BaseServiceImpl<PK, E> implements IBaseService<PK, E> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<E> list() {
+    public List<E> listAll() {
         return dplPlus.list(getPKClass(), getEClass());
+    }
+
+    public <T> Page<T> pageAll(Integer current, Integer size, List<T> list) {
+        return dplPlus.page(current, size, list);
     }
 
     /**

@@ -1,5 +1,6 @@
 package ogd.berkeleyDB.easyDPL.controller;
 
+import ogd.berkeleyDB.easyDPL.dplPlus.core.Page;
 import ogd.berkeleyDB.easyDPL.dplPlus.util.PkUtils;
 import ogd.berkeleyDB.easyDPL.entity.Engine;
 import ogd.berkeleyDB.easyDPL.service.IEngineService;
@@ -44,9 +45,16 @@ public class EngineController {
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, null);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public DataResult list() {
-        List<Engine> result = engineService.list();
+    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
+    public DataResult listAll() {
+        List<Engine> result = engineService.listAll();
+        return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
+    }
+
+    @RequestMapping(value = "/pageAll", method = RequestMethod.GET)
+    public DataResult pageAll(@RequestParam(required = false, value = "current") Integer current,
+                           @RequestParam(required = false, value = "size") Integer size) {
+        Page<Engine> result = engineService.pageAll(current, size, engineService.listAll());
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 

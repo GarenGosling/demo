@@ -1,5 +1,6 @@
 package ogd.berkeleyDB.easyDPL.controller;
 
+import ogd.berkeleyDB.easyDPL.dplPlus.core.Page;
 import ogd.berkeleyDB.easyDPL.dplPlus.util.PkUtils;
 import ogd.berkeleyDB.easyDPL.entity.AiApp;
 import ogd.berkeleyDB.easyDPL.service.IAiAppService;
@@ -44,10 +45,18 @@ public class AiAppController {
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, null);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public DataResult list() {
-        List<AiApp> result = aiAppService.list();
+    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
+    public DataResult listAll() {
+        List<AiApp> result = aiAppService.listAll();
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
+
+    @RequestMapping(value = "/pageAll", method = RequestMethod.GET)
+    public DataResult pageAll(@RequestParam(required = false, value = "current") Integer current,
+                           @RequestParam(required = false, value = "size") Integer size) {
+        Page<AiApp> result = aiAppService.pageAll(current, size, aiAppService.listAll());
+        return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
+    }
+
 
 }

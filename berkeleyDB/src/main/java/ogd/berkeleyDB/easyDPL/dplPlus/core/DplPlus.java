@@ -212,6 +212,23 @@ public class DplPlus {
 
     /**
      * <p>
+     * 功能描述 : 分页
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/25 下午12:03
+     *
+     * @param page 分页对象
+     * @param list 源数据集合
+     * @Return ogd.berkeleyDB.easyDPL.dplPlus.core.Page<T>
+     **/
+    public <T> Page<T> page(Integer current, Integer size, List<T> list) {
+        if(current == null) current = 0;
+        if(size == null) size = 10;
+        return new Page<>(current, size, list);
+    }
+
+    /**
+     * <p>
      * 功能描述 : 获取仓库
      * </p>
      *

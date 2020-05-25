@@ -1,5 +1,7 @@
 package ogd.berkeleyDB.easyDPL.dplPlus.bs;
 
+import ogd.berkeleyDB.easyDPL.dplPlus.core.Page;
+
 import java.util.List;
 
 /**
@@ -14,5 +16,6 @@ public interface IBaseService<PK, E> {
     E update(PK pk, E e);
     E get(PK pk);
     void delete(PK pk);
-    List<E> list();
+    List<E> listAll();
+    <T> Page<T> pageAll(Integer current, Integer size, List<T> list);
 }
