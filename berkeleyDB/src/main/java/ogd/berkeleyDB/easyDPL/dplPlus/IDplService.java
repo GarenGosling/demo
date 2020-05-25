@@ -59,7 +59,45 @@ public interface IDplService<PK, E> {
      * @Return void
      **/
     void delete(PK pk);
+
+    /**
+     * <p>
+     * 功能描述 : 查询全部
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/25 下午5:48
+     *
+     * @param
+     * @Return java.util.List<E>
+     **/
     List<E> listAll();
+
+    /**
+     * <p>
+     * 功能描述 : 二级索引查询
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/25 下午5:48
+     *
+     * @param keyName 索引名称
+     * @param keyClass 索引类型
+     * @param sk 索引值
+     * @Return java.util.List<E>
+     **/
+    <SK> List<E> listBySk(String keyName, Class<SK> keyClass, SK sk);
+
+    /**
+     * <p>
+     * 功能描述 : 分页查询
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/25 下午5:49
+     *
+     * @param current 起始索引
+     * @param size 每页数量
+     * @param list 源数据集合
+     * @Return ogd.berkeleyDB.easyDPL.dplPlus.Page<T>
+     **/
     <T> Page<T> pageAll(Integer current, Integer size, List<T> list);
 
     /**

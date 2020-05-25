@@ -44,6 +44,11 @@ public class DplServiceImpl<PK, E> implements IDplService<PK, E> {
         return dplPlus.list(getPKClass(), getEClass());
     }
 
+    @SuppressWarnings("unchecked")
+    public <SK> List<E> listBySk(String keyName, Class<SK> keyClass, SK sk) {
+        return dplPlus.listBySk(getPKClass(), getEClass(), keyName, keyClass, sk);
+    }
+
     public <T> Page<T> pageAll(Integer current, Integer size, List<T> list) { return dplPlus.page(current, size, list); }
 
     public <T> T execute(ICurdHandler<T> iCurdHandler) { return dplPlus.execute(iCurdHandler); }

@@ -2,10 +2,13 @@ package ogd.berkeleyDB.easyDPL.entity;
 
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.PrimaryKey;
+import com.sleepycat.persist.model.SecondaryKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import static com.sleepycat.persist.model.Relationship.MANY_TO_ONE;
 
 /**
  * <p>
@@ -25,18 +28,28 @@ public class Server {
      */
     @PrimaryKey
     private String id;
+
+    /**
+     * 领域ID
+     */
+    @SecondaryKey(relate=MANY_TO_ONE)
+    private String engineId;
+
     /**
      * 名称
      */
     private String name;
+
     /**
      * IP
      */
     private String ip;
+
     /**
      * 端口
      */
     private Integer port;
+
     /**
      * 权重
      */

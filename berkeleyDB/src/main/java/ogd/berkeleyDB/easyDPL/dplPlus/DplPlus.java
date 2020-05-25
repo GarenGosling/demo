@@ -171,17 +171,33 @@ public class DplPlus {
      **/
     <PK, E> List<E> list(Class<PK> primaryKeyClass, Class<E> entityClass) {
         EntityStore store = getStore();
-            PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
-            EntityCursor<E> entities = pi.entities();
-            List<E> list = new ArrayList<>();
-            try {
-                for (E e : entities) {
-                    list.add(e);
-                }
-            } finally {
-                entities.close();
+        PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
+        EntityCursor<E> entities = pi.entities();
+        List<E> list = new ArrayList<>();
+        try {
+            for (E e : entities) {
+                list.add(e);
             }
-            return list;
+        } finally {
+            entities.close();
+        }
+        return list;
+    }
+
+    <SK, PK, E> List<E> listBySk(Class<PK> primaryKeyClass, Class<E> entityClass, String keyName, Class<SK> keyClass, SK sk) {
+        EntityStore store = getStore();
+        PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
+        SecondaryIndex<SK, PK, E> si = store.getSecondaryIndex(pi, keyClass, keyName);
+        EntityCursor<E> entities = si.subIndex(sk).entities();
+        List<E> list = new ArrayList<>();
+        try {
+            for (E e : entities) {
+                list.add(e);
+            }
+        } finally {
+            entities.close();
+        }
+        return list;
     }
 
     /**

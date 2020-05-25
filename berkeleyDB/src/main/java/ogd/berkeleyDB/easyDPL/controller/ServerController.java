@@ -51,6 +51,12 @@ public class ServerController {
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
+    @RequestMapping(value = "/listByEngineId", method = RequestMethod.GET)
+    public DataResult listByEngineId(@RequestParam String engineId) {
+        List<Server> result = serverService.listBySk("engineId", String.class, engineId);
+        return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
+    }
+
     @RequestMapping(value = "/pageAll", method = RequestMethod.GET)
     public DataResult pageAll(@RequestParam(required = false, value = "dataIndex") Integer dataIndex,
                            @RequestParam(required = false, value = "pageSize") Integer pageSize) {
