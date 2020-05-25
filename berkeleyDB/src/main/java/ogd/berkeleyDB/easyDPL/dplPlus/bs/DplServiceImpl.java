@@ -18,7 +18,7 @@ import java.util.List;
  * @author : Garen Gosling 2020/5/23 下午12:13
  */
 @Component
-public class BaseServiceImpl<PK, E> implements IBaseService<PK, E> {
+public class DplServiceImpl<PK, E> implements IDplService<PK, E> {
 
     @Resource
     DplPlus dplPlus;

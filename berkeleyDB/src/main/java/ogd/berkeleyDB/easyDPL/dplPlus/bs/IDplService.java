@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author : Garen Gosling 2020/5/25 上午9:55
  */
-public interface IBaseService<PK, E> {
+public interface IDplService<PK, E> {
     E save(PK pk, E e);
     E update(PK pk, E e);
     E get(PK pk);

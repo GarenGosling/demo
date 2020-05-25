@@ -1,7 +1,7 @@
 package ogd.berkeleyDB.easyDPL.service;
 
 
-import ogd.berkeleyDB.easyDPL.dplPlus.bs.IBaseService;
+import ogd.berkeleyDB.easyDPL.dplPlus.bs.IDplService;
 import ogd.berkeleyDB.easyDPL.entity.Engine;
 
 /**
@@ -11,6 +11,6 @@ import ogd.berkeleyDB.easyDPL.entity.Engine;
  *
  * @author : Garen Gosling 2020/5/23 下午3:05
  */
-public interface IEngineService extends IBaseService<String, Engine> {
+public interface IEngineService extends IDplService<String, Engine> {
 
 }
