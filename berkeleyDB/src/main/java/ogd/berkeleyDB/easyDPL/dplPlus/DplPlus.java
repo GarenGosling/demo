@@ -184,6 +184,20 @@ public class DplPlus {
         return list;
     }
 
+    /**
+     * <p>
+     * 功能描述 : 通过二级索引查询
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/25 下午6:16
+     *
+     * @param primaryKeyClass 主键
+     * @param entityClass 实体类
+     * @param keyName 二级索引的名字
+     * @param keyClass 二级索引的类
+     * @param sk 二级索引的值
+     * @Return java.util.List<E>
+     **/
     <SK, PK, E> List<E> listBySk(Class<PK> primaryKeyClass, Class<E> entityClass, String keyName, Class<SK> keyClass, SK sk) {
         EntityStore store = getStore();
         PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
