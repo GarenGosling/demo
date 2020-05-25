@@ -1,5 +1,6 @@
 package ogd.berkeleyDB.easyDPL.service;
 
+import ogd.berkeleyDB.easyDPL.dplPlus.IBaseService;
 import ogd.berkeleyDB.easyDPL.entity.Server;
 
 /**
@@ -9,9 +10,6 @@ import ogd.berkeleyDB.easyDPL.entity.Server;
  *
  * @author : Garen Gosling 2020/5/23 下午3:24
  */
-public interface IServerService {
-    Server save(Server server);
-    void delete(String id);
-    Server update(Server server);
-    Server get(String id);
+public interface IServerService extends IBaseService<String, Server> {
+
 }

@@ -8,6 +8,7 @@ import ogd.berkeleyDB.response.ResultEnum;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @RestController
@@ -19,7 +20,7 @@ public class ServerController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public DataResult save(@RequestBody Server server) {
-        Server result = serverService.save(server);
+        Server result = serverService.save(server.getId(), server);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
@@ -31,7 +32,7 @@ public class ServerController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public DataResult update(@RequestBody Server server) {
-        Server result = serverService.update(server);
+        Server result = serverService.update(server.getId(), server);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
@@ -39,6 +40,12 @@ public class ServerController {
     public DataResult delete(@RequestParam String id) {
         serverService.delete(id);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, null);
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public DataResult list() {
+        List<Server> result = serverService.list();
+        return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
 }

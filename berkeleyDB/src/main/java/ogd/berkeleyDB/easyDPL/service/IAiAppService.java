@@ -1,5 +1,7 @@
 package ogd.berkeleyDB.easyDPL.service;
 
+
+import ogd.berkeleyDB.easyDPL.dplPlus.IBaseService;
 import ogd.berkeleyDB.easyDPL.entity.AiApp;
 
 /**
@@ -9,9 +11,6 @@ import ogd.berkeleyDB.easyDPL.entity.AiApp;
  *
  * @author : Garen Gosling 2020/5/23 下午3:05
  */
-public interface IAiAppService {
-    AiApp save(AiApp aiApp);
-    void delete(String id);
-    AiApp update(AiApp aiApp);
-    AiApp get(String id);
+public interface IAiAppService extends IBaseService<String, AiApp> {
+
 }

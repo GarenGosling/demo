@@ -44,7 +44,7 @@ public class MyGlobalExceptionHandler {
 	@ResponseBody
 	public DataResult SystemErrorHandler(Exception e) {
 		e.printStackTrace();
-		return new DataResult<>(false, ResultEnum.RESULT_ERROR, ResultCodeEnum.RESULT_ERROR, e);
+		return new DataResult<>(false, ResultEnum.RESULT_ERROR, ResultCodeEnum.RESULT_ERROR, e.getMessage());
 	}
 
 }

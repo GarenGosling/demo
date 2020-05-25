@@ -1,9 +1,9 @@
 package ogd.berkeleyDB.easyDPL.dplPlus;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -14,43 +14,62 @@ import java.util.UUID;
  * @author : Garen Gosling 2020/5/23 下午12:13
  */
 @Component
-public class IBaseMapper<PK, E> {
+public class BaseService<PK, E> implements IBaseService<PK, E> {
 
-    @Resource
-    DplTemplate dplTemplate;
+    @Value("${BerkeleyDB.envPath}")
+    private String BDB_ENV_PATH;
 
     @SuppressWarnings("unchecked")
     public E save(PK pk, E e) {
-        return (E) dplTemplate.save(getPKClass(), getEClass(), pk, e);
+        return (E) DplPlus.getInstance(BDB_ENV_PATH).save(getPKClass(), getEClass(), pk, e);
     }
 
     @SuppressWarnings("unchecked")
     public E update(PK pk, E e) {
-        return (E) dplTemplate.update(getPKClass(), getEClass(), pk, e);
+        return (E) DplPlus.getInstance(BDB_ENV_PATH).update(getPKClass(), getEClass(), pk, e);
     }
 
     @SuppressWarnings("unchecked")
     public E get(PK pk) {
-        return (E) dplTemplate.getByPk(getPKClass(), getEClass(), pk);
+        return (E) DplPlus.getInstance(BDB_ENV_PATH).getByPk(getPKClass(), getEClass(), pk);
     }
 
     @SuppressWarnings("unchecked")
     public void delete(PK pk) {
-        dplTemplate.deleteByPk(getPKClass(), getEClass(), pk);
+        DplPlus.getInstance(BDB_ENV_PATH).deleteByPk(getPKClass(), getEClass(), pk);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<E> list() {
+        return DplPlus.getInstance(BDB_ENV_PATH).list(getPKClass(), getEClass());
     }
 
     /**
      * <p>
-     * 功能描述 : 通用方法
+     * 功能描述 : 通用方法，有事务
      * </p>
      *
      * @author : Garen Gosling   2020/5/23 下午3:02
+     *
+     * @param iCurdHandlerT 自定义数据库操作接口（lambda表达式）
+     * @Return T 返回类型
+     **/
+    public <T> T executeT(ICurdHandlerT<T> iCurdHandlerT) {
+        return DplPlus.getInstance(BDB_ENV_PATH).executeT(iCurdHandlerT);
+    }
+
+    /**
+     * <p>
+     * 功能描述 : 通用方法，无事务
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/25 上午9:34
      *
      * @param iCurdHandler 自定义数据库操作接口（lambda表达式）
      * @Return T 返回类型
      **/
     public <T> T execute(ICurdHandler<T> iCurdHandler) {
-        return dplTemplate.execute(iCurdHandler);
+        return DplPlus.getInstance(BDB_ENV_PATH).execute(iCurdHandler);
     }
 
     /**

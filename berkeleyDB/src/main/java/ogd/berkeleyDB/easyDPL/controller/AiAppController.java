@@ -8,6 +8,7 @@ import ogd.berkeleyDB.response.ResultEnum;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @RestController
@@ -19,7 +20,7 @@ public class AiAppController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public DataResult save(@RequestBody AiApp aiApp) {
-        AiApp result = aiAppService.save(aiApp);
+        AiApp result = aiAppService.save(aiApp.getId(), aiApp);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
@@ -31,7 +32,7 @@ public class AiAppController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public DataResult update(@RequestBody AiApp aiApp) {
-        AiApp result = aiAppService.update(aiApp);
+        AiApp result = aiAppService.update(aiApp.getId(), aiApp);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
@@ -39,6 +40,12 @@ public class AiAppController {
     public DataResult delete(@RequestParam String id) {
         aiAppService.delete(id);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, null);
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public DataResult list() {
+        List<AiApp> result = aiAppService.list();
+        return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
 }

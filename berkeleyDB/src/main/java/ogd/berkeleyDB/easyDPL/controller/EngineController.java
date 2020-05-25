@@ -8,6 +8,7 @@ import ogd.berkeleyDB.response.ResultEnum;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @RestController
@@ -19,7 +20,7 @@ public class EngineController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public DataResult save(@RequestBody Engine engine) {
-        Engine result = engineService.save(engine);
+        Engine result = engineService.save(engine.getId(), engine);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
@@ -31,7 +32,7 @@ public class EngineController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public DataResult update(@RequestBody Engine engine) {
-        Engine result = engineService.update(engine);
+        Engine result = engineService.update(engine.getId(), engine);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
@@ -39,6 +40,12 @@ public class EngineController {
     public DataResult delete(@RequestParam String id) {
         engineService.delete(id);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, null);
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public DataResult list() {
+        List<Engine> result = engineService.list();
+        return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
 }
