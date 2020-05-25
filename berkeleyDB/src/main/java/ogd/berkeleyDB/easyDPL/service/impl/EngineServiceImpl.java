@@ -13,6 +13,6 @@ import org.springframework.stereotype.Component;
  * @author : Garen Gosling 2020/5/23 下午12:05
  */
 @Component
-public class EngineServiceImplImpl extends BaseServiceImpl<String, Engine> implements IEngineService {
+public class EngineServiceImpl extends BaseServiceImpl<String, Engine> implements IEngineService {
 
 }

@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandler;
 import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandlerT;
 import ogd.berkeleyDB.easyDPL.dplPlus.util.MyBeanUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,30 +23,14 @@ import java.util.List;
  * @author : Garen Gosling 2020/5/23 上午11:12
  */
 @Slf4j
+@Component
 public class DplPlus {
 
-    private String evnPath; // 环境地址
-    private static final String STORE_NAME = "myStore";
+    @Value("${BerkeleyDB.envPath}")
+    private String ENV_PATH;
 
-    // 私有构造
-    private DplPlus(String evnPath) {
-        this.evnPath = evnPath;
-    }
-
-    // 单例对象 volatile + 双重检测机制 -> 禁止指令重排
-    private volatile static DplPlus instance = null;
-
-    // 静态工厂方法
-    public static DplPlus getInstance(String envPath) {
-        if(instance == null) {  // 双重检测机制   // B
-            synchronized (DplPlus.class) {   // 同步锁
-                if(instance == null){
-                    instance = new DplPlus(envPath);    // A - 3
-                }
-            }
-        }
-        return instance;
-    }
+    @Value("${BerkeleyDB.storeName}")
+    private String STORE_NAME;
 
     /**
      * <p>
@@ -62,7 +48,7 @@ public class DplPlus {
         Transaction txn = null;
         try {
             // 环境
-            env = EnvSingleton.getInstance(evnPath).getEnv();
+            env = EnvSingleton.getInstance(ENV_PATH).getEnv();
             // 仓库
             store = getStore();
             // 事务
@@ -241,7 +227,7 @@ public class DplPlus {
         storeConfig.setAllowCreate(true);  // 仓库文件不存在是否要创建，true创建、false抛异常
         storeConfig.setTransactional(true); // 开启事务
         // 仓库对象
-        return new EntityStore(EnvSingleton.getInstance(evnPath).getEnv(), STORE_NAME, storeConfig);
+        return new EntityStore(EnvSingleton.getInstance(ENV_PATH).getEnv(), STORE_NAME, storeConfig);
     }
 
     /**
@@ -258,7 +244,7 @@ public class DplPlus {
         if (store != null) {
             try {
                 store.close();
-                EnvSingleton.getInstance(evnPath).getEnv().sync();
+                EnvSingleton.getInstance(ENV_PATH).getEnv().sync();
             } catch(DatabaseException dbe) {
                 dbe.printStackTrace();
                 throw new RuntimeException("store close fail");

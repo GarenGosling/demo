@@ -3,8 +3,9 @@ package ogd.berkeleyDB.easyDPL.dplPlus.bs;
 import ogd.berkeleyDB.easyDPL.dplPlus.core.DplPlus;
 import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandler;
 import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandlerT;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
@@ -18,32 +19,32 @@ import java.util.List;
 @Component
 public class BaseServiceImpl<PK, E> implements IBaseService<PK, E> {
 
-    @Value("${BerkeleyDB.envPath}")
-    private String BDB_ENV_PATH;
+    @Resource
+    DplPlus dplPlus;
 
     @SuppressWarnings("unchecked")
     public E save(PK pk, E e) {
-        return (E) DplPlus.getInstance(BDB_ENV_PATH).save(getPKClass(), getEClass(), pk, e);
+        return (E) dplPlus.save(getPKClass(), getEClass(), pk, e);
     }
 
     @SuppressWarnings("unchecked")
     public E update(PK pk, E e) {
-        return (E) DplPlus.getInstance(BDB_ENV_PATH).update(getPKClass(), getEClass(), pk, e);
+        return (E) dplPlus.update(getPKClass(), getEClass(), pk, e);
     }
 
     @SuppressWarnings("unchecked")
     public E get(PK pk) {
-        return (E) DplPlus.getInstance(BDB_ENV_PATH).getByPk(getPKClass(), getEClass(), pk);
+        return (E) dplPlus.getByPk(getPKClass(), getEClass(), pk);
     }
 
     @SuppressWarnings("unchecked")
     public void delete(PK pk) {
-        DplPlus.getInstance(BDB_ENV_PATH).deleteByPk(getPKClass(), getEClass(), pk);
+        dplPlus.deleteByPk(getPKClass(), getEClass(), pk);
     }
 
     @SuppressWarnings("unchecked")
     public List<E> list() {
-        return DplPlus.getInstance(BDB_ENV_PATH).list(getPKClass(), getEClass());
+        return dplPlus.list(getPKClass(), getEClass());
     }
 
     /**
@@ -57,7 +58,7 @@ public class BaseServiceImpl<PK, E> implements IBaseService<PK, E> {
      * @Return T 返回类型
      **/
     public <T> T executeT(ICurdHandlerT<T> iCurdHandlerT) {
-        return DplPlus.getInstance(BDB_ENV_PATH).executeT(iCurdHandlerT);
+        return dplPlus.executeT(iCurdHandlerT);
     }
 
     /**
@@ -71,7 +72,7 @@ public class BaseServiceImpl<PK, E> implements IBaseService<PK, E> {
      * @Return T 返回类型
      **/
     public <T> T execute(ICurdHandler<T> iCurdHandler) {
-        return DplPlus.getInstance(BDB_ENV_PATH).execute(iCurdHandler);
+        return dplPlus.execute(iCurdHandler);
     }
 
     /**
