@@ -1,4 +1,4 @@
-package ogd.berkeleyDB.easyDPL.dplPlus;
+package ogd.berkeleyDB.easyDPL.dplPlus.core;
 
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;

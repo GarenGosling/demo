@@ -1,4 +1,4 @@
-package ogd.berkeleyDB.easyDPL.dplPlus;
+package ogd.berkeleyDB.easyDPL.dplPlus.core;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
@@ -6,6 +6,9 @@ import com.sleepycat.je.LockMode;
 import com.sleepycat.je.Transaction;
 import com.sleepycat.persist.*;
 import lombok.extern.slf4j.Slf4j;
+import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandler;
+import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandlerT;
+import ogd.berkeleyDB.easyDPL.dplPlus.util.MyBeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ public class DplPlus {
     private volatile static DplPlus instance = null;
 
     // 静态工厂方法
-    static DplPlus getInstance(String envPath) {
+    public static DplPlus getInstance(String envPath) {
         if(instance == null) {  // 双重检测机制   // B
             synchronized (DplPlus.class) {   // 同步锁
                 if(instance == null){
@@ -53,7 +56,7 @@ public class DplPlus {
      * @param iCurdHandlerT 自定义数据库操作接口（lambda表达式）
      * @Return T 返回类型
      **/
-    <T> T executeT(ICurdHandlerT<T> iCurdHandlerT) {
+    public <T> T executeT(ICurdHandlerT<T> iCurdHandlerT) {
         Environment env;
         EntityStore store = null;
         Transaction txn = null;
@@ -86,7 +89,7 @@ public class DplPlus {
      * @param iCurdHandler 自定义数据库操作接口（lambda表达式）
      * @Return T 返回类型
      **/
-    <T> T execute(ICurdHandler<T> iCurdHandler) {
+    public <T> T execute(ICurdHandler<T> iCurdHandler) {
         EntityStore store = null;
         try {
             store = getStore();
@@ -112,7 +115,7 @@ public class DplPlus {
      * @param pk 主键
      * @Return E 实体
      **/
-    <PK, E> E getByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
+    public <PK, E> E getByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
         EntityStore store = getStore();
         PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         E e = pi.get(pk);
@@ -133,7 +136,7 @@ public class DplPlus {
      * @param entity 实体
      * @Return void
      **/
-    <PK, E> E save(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
+    public <PK, E> E save(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
         EntityStore store = getStore();
         PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         E e = pi.get(pk);
@@ -158,7 +161,7 @@ public class DplPlus {
      * @param pk 主键
      * @Return void
      **/
-    <PK, E> void deleteByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
+    public <PK, E> void deleteByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
         EntityStore store = getStore();
         PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         pi.delete(pk);
@@ -178,7 +181,7 @@ public class DplPlus {
      * @param entity 实体
      * @Return void
      **/
-    <PK, E> E update(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
+    public <PK, E> E update(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
         return executeT(((store, txn) -> {
             PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
             // 查
@@ -206,7 +209,7 @@ public class DplPlus {
      * @param entityClass 实体类
      * @Return java.util.List<E>
      **/
-    <PK, E> List<E> list(Class<PK> primaryKeyClass, Class<E> entityClass) {
+    public <PK, E> List<E> list(Class<PK> primaryKeyClass, Class<E> entityClass) {
         EntityStore store = getStore();
         PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         EntityCursor<E> entities = pi.entities();

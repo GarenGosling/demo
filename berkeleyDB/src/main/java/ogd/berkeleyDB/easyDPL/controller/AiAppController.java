@@ -1,5 +1,6 @@
 package ogd.berkeleyDB.easyDPL.controller;
 
+import ogd.berkeleyDB.easyDPL.dplPlus.util.PkUtils;
 import ogd.berkeleyDB.easyDPL.entity.AiApp;
 import ogd.berkeleyDB.easyDPL.service.IAiAppService;
 import ogd.berkeleyDB.response.DataResult;
@@ -20,6 +21,7 @@ public class AiAppController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public DataResult save(@RequestBody AiApp aiApp) {
+        aiApp.setId(PkUtils.uuid());    // 设置主键
         AiApp result = aiAppService.save(aiApp.getId(), aiApp);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }

@@ -1,6 +1,6 @@
 package ogd.berkeleyDB.easyDPL.service;
 
-import ogd.berkeleyDB.easyDPL.dplPlus.IBaseService;
+import ogd.berkeleyDB.easyDPL.dplPlus.bs.IBaseService;
 import ogd.berkeleyDB.easyDPL.entity.Server;
 
 /**

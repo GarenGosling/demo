@@ -1,5 +1,6 @@
 package ogd.berkeleyDB.easyDPL.controller;
 
+import ogd.berkeleyDB.easyDPL.dplPlus.util.PkUtils;
 import ogd.berkeleyDB.easyDPL.entity.Engine;
 import ogd.berkeleyDB.easyDPL.service.IEngineService;
 import ogd.berkeleyDB.response.DataResult;
@@ -20,6 +21,7 @@ public class EngineController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public DataResult save(@RequestBody Engine engine) {
+        engine.setId(PkUtils.uuid());    // 设置主键
         Engine result = engineService.save(engine.getId(), engine);
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }

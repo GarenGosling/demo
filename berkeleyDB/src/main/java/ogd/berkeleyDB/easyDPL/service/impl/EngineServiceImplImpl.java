@@ -1,6 +1,6 @@
 package ogd.berkeleyDB.easyDPL.service.impl;
 
-import ogd.berkeleyDB.easyDPL.dplPlus.BaseService;
+import ogd.berkeleyDB.easyDPL.dplPlus.bs.BaseServiceImpl;
 import ogd.berkeleyDB.easyDPL.entity.Engine;
 import ogd.berkeleyDB.easyDPL.service.IEngineService;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Component;
  * @author : Garen Gosling 2020/5/23 下午12:05
  */
 @Component
-public class EngineServiceImpl extends BaseService<String, Engine> implements IEngineService {
+public class EngineServiceImplImpl extends BaseServiceImpl<String, Engine> implements IEngineService {
 
 }

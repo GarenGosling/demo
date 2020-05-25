@@ -1,10 +1,12 @@
-package ogd.berkeleyDB.easyDPL.dplPlus;
+package ogd.berkeleyDB.easyDPL.dplPlus.bs;
 
+import ogd.berkeleyDB.easyDPL.dplPlus.core.DplPlus;
+import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandler;
+import ogd.berkeleyDB.easyDPL.dplPlus.lamb.ICurdHandlerT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * <p>
@@ -14,7 +16,7 @@ import java.util.UUID;
  * @author : Garen Gosling 2020/5/23 下午12:13
  */
 @Component
-public class BaseService<PK, E> implements IBaseService<PK, E> {
+public class BaseServiceImpl<PK, E> implements IBaseService<PK, E> {
 
     @Value("${BerkeleyDB.envPath}")
     private String BDB_ENV_PATH;
@@ -98,20 +100,6 @@ public class BaseService<PK, E> implements IBaseService<PK, E> {
      **/
     private Class getEClass() {
         return (Class<E>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-    }
-
-    /**
-     * <p>
-     * 功能描述 : 创建一个主键 （新增用）
-     * </p>
-     *
-     * @author : Garen Gosling   2020/5/23 下午3:14
-     *
-     * @param
-     * @Return java.lang.String
-     **/
-    public String createPK() {
-        return UUID.randomUUID().toString().replace("-", "").toLowerCase();
     }
 
 }

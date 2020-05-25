@@ -1,4 +1,4 @@
-package ogd.berkeleyDB.easyDPL.dplPlus;
+package ogd.berkeleyDB.easyDPL.dplPlus.util;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;

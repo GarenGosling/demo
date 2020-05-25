@@ -1,4 +1,4 @@
-package ogd.berkeleyDB.easyDPL.dplPlus;
+package ogd.berkeleyDB.easyDPL.dplPlus.lamb;
 
 import com.sleepycat.je.Transaction;
 import com.sleepycat.persist.EntityStore;
