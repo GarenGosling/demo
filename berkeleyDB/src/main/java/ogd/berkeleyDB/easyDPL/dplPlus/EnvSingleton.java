@@ -2,6 +2,7 @@ package ogd.berkeleyDB.easyDPL.dplPlus;
 
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 
@@ -18,27 +19,30 @@ public class EnvSingleton {
     private Environment env;
 
     // 私有构造函数
-    private EnvSingleton(String envPath) {
-        // 环境目录
-        File envHome = new File(envPath);
-        if (!envHome.exists()) envHome.mkdirs();
-        // 环境配置
-        EnvironmentConfig myEnvConfig = new EnvironmentConfig();
-        myEnvConfig.setAllowCreate(true);  // 环境文件不存在是否要创建，true创建、false抛异常
-        myEnvConfig.setTransactional(true); // 开启事务
-        // 环境对象
-        env = new Environment(envHome, myEnvConfig);
+    private EnvSingleton() {
+        String envPath = DplConfig.getInstance().getEnvPath();
+        if(!StringUtils.isEmpty(envPath)){
+            // 环境目录
+            File envHome = new File(envPath);
+            if (!envHome.exists()) envHome.mkdirs();
+            // 环境配置
+            EnvironmentConfig myEnvConfig = new EnvironmentConfig();
+            myEnvConfig.setAllowCreate(true);  // 环境文件不存在是否要创建，true创建、false抛异常
+            myEnvConfig.setTransactional(true); // 开启事务
+            // 环境对象
+            env = new Environment(envHome, myEnvConfig);
+        }
     }
 
     // 单例对象 volatile + 双重检测机制 -> 禁止指令重排
     private volatile static EnvSingleton instance = null;
 
     // 静态工厂方法
-    public static EnvSingleton getInstance(String envPath) {
+    public static EnvSingleton getInstance() {
         if(instance == null) {  // 双重检测机制   // B
             synchronized (EnvSingleton.class) {   // 同步锁
                 if(instance == null){
-                    instance = new EnvSingleton(envPath);    // A - 3
+                    instance = new EnvSingleton();    // A - 3
                 }
             }
         }

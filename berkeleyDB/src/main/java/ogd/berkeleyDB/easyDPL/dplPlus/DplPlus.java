@@ -6,7 +6,6 @@ import com.sleepycat.je.LockMode;
 import com.sleepycat.je.Transaction;
 import com.sleepycat.persist.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -24,12 +23,6 @@ import java.util.List;
 @Component
 public class DplPlus {
 
-    @Value("${BerkeleyDB.envPath}")
-    private String ENV_PATH;
-
-    @Value("${BerkeleyDB.storeName}")
-    private String STORE_NAME;
-
     /**
      * <p>
      * 功能描述 : 通用方法，有事务
@@ -46,7 +39,7 @@ public class DplPlus {
         Transaction txn = null;
         try {
             // 环境
-            env = EnvSingleton.getInstance(ENV_PATH).getEnv();
+            env = EnvSingleton.getInstance().getEnv();
             // 仓库
             store = getStore();
             // 事务
@@ -99,7 +92,7 @@ public class DplPlus {
      **/
     <PK, E> E save(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk, E entity) {
         EntityStore store = getStore();
-            PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
+        PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         E e = pi.get(pk);
         if(e != null) {
             closeStore(store);
@@ -301,7 +294,7 @@ public class DplPlus {
         storeConfig.setAllowCreate(true);  // 仓库文件不存在是否要创建，true创建、false抛异常
         storeConfig.setTransactional(true); // 开启事务
         // 仓库对象
-        return new EntityStore(EnvSingleton.getInstance(ENV_PATH).getEnv(), STORE_NAME, storeConfig);
+        return new EntityStore(EnvSingleton.getInstance().getEnv(), DplConfig.getInstance().getStoreName(), storeConfig);
     }
 
     /**
@@ -318,7 +311,7 @@ public class DplPlus {
         if (store != null) {
             try {
                 store.close();
-                EnvSingleton.getInstance(ENV_PATH).getEnv().sync();
+                EnvSingleton.getInstance().getEnv().sync();
             } catch(DatabaseException dbe) {
                 dbe.printStackTrace();
                 throw new RuntimeException("store close fail");
