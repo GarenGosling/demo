@@ -8,6 +8,7 @@ import com.sleepycat.persist.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class DplPlus {
      **/
     <PK, E> E getByPk(Class<PK> primaryKeyClass, Class<E> entityClass, PK pk) {
         EntityStore store = getStore();
-            PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
+        PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
         E e = pi.get(pk);
         closeStore(store);
         return e;
@@ -212,6 +213,57 @@ public class DplPlus {
             entities.close();
         }
         return list;
+    }
+
+    /**
+     * <p>
+     * 功能描述 : 条件查询
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/26 上午9:29
+     *
+     * @param primaryKeyClass 主键类型
+     * @param entityClass 实体类型
+     * @param iParamsHandler 自定义参数
+     * @Return java.util.List<E>
+     **/
+    <PK, E> List<E> listByParams(Class<PK> primaryKeyClass, Class<E> entityClass, IParamsHandler iParamsHandler) {
+        EntityStore store = null;
+        try {
+            // 仓库
+            store = getStore();
+            // 主键
+            PrimaryIndex<PK, E> pi = store.getPrimaryIndex(primaryKeyClass, entityClass);
+            // 二级索引集合
+            List<Param<Object, Object, Object>> params = iParamsHandler.paramList(store, pi);
+            if(CollectionUtils.isEmpty(params)) return list(primaryKeyClass, entityClass);
+            // 二级索引拼接
+            EntityJoin<PK, E> join = new EntityJoin<>(pi);
+            for(Param p : params){
+                join.addCondition(p.getSecondaryIndex(), p.getKey());
+            }
+            // 游标
+            ForwardCursor<E> join_cursor = join.entities();
+            // 集合
+            List<E> list = new ArrayList<>();
+            try {
+                // 遍历
+                for (E e : join_cursor) {
+                    // 装进集合
+                    list.add(e);
+                }
+            } finally {
+                // 关闭游标
+                join_cursor.close();
+            }
+            // 返回集合
+            return list;
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }finally {
+            closeStore(store);
+        }
     }
 
     /**

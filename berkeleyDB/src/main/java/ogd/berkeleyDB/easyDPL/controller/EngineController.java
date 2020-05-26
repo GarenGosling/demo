@@ -57,6 +57,13 @@ public class EngineController {
         return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
     }
 
+    @RequestMapping(value = "/getByParams", method = RequestMethod.GET)
+    public DataResult getByParams(@RequestParam(required = false, value = "name") String name,
+                                  @RequestParam(required = false, value = "type") Integer type) {
+        List<Engine> result = engineService.getByParams(name, type);
+        return new DataResult<>(true, ResultEnum.RESULT_SUCCESS, ResultCodeEnum.RESULT_SUCCESS, result);
+    }
+
     @RequestMapping(value = "/pageAll", method = RequestMethod.GET)
     public DataResult pageAll(@RequestParam(required = false, value = "current") Integer current,
                            @RequestParam(required = false, value = "size") Integer size) {

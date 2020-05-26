@@ -111,4 +111,16 @@ public interface IDplService<PK, E> {
      * @Return T 返回类型
      **/
     <T> T execute(ICurdHandler<T> iCurdHandler);
+
+    /**
+     * <p>
+     * 功能描述 : 组合成参数集合
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/26 上午10:06
+     *
+     * @param params 参数
+     * @Return java.util.List<ogd.berkeleyDB.easyDPL.dplPlus.Param>
+     **/
+    List<Param> toParamList(Param... params);
 }

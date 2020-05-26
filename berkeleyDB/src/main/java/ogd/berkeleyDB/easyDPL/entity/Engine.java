@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import static com.sleepycat.persist.model.Relationship.MANY_TO_ONE;
+import static com.sleepycat.persist.model.Relationship.ONE_TO_ONE;
 
 
 /**
@@ -39,6 +40,7 @@ public class Engine {
     /**
      * 名称
      */
+    @SecondaryKey(relate=ONE_TO_ONE)
     private String name;
 
     /**
@@ -49,6 +51,7 @@ public class Engine {
     /**
      * 类型 0是通用 1专用
      */
+    @SecondaryKey(relate=MANY_TO_ONE)
     private int type;
 
     /**

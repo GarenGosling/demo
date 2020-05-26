@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,9 +50,24 @@ public class DplServiceImpl<PK, E> implements IDplService<PK, E> {
         return dplPlus.listBySk(getPKClass(), getEClass(), keyName, keyClass, sk);
     }
 
+    @SuppressWarnings("unchecked")
+    public List<E> listByParams(IParamsHandler iParamsHandler) {
+        return dplPlus.listByParams(getPKClass(), getEClass(), iParamsHandler);
+    }
+
     public <T> Page<T> pageAll(Integer current, Integer size, List<T> list) { return dplPlus.page(current, size, list); }
 
     public <T> T execute(ICurdHandler<T> iCurdHandler) { return dplPlus.execute(iCurdHandler); }
+
+    @Override
+    public List<Param> toParamList(Param... params) {
+        if(params == null || params.length < 1) return null;
+        List<Param> list = new ArrayList<>();
+        for(Param p : params){
+            if(p != null) list.add(p);
+        }
+        return list;
+    }
 
 
     /**

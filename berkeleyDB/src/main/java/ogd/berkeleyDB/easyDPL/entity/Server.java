@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import static com.sleepycat.persist.model.Relationship.MANY_TO_ONE;
+import static com.sleepycat.persist.model.Relationship.ONE_TO_ONE;
 
 /**
  * <p>
@@ -38,6 +39,7 @@ public class Server {
     /**
      * 名称
      */
+    @SecondaryKey(relate=ONE_TO_ONE)
     private String name;
 
     /**
