@@ -1,7 +1,7 @@
 package ogd.berkeleyDB.easyDPL.config;
 
 import lombok.extern.slf4j.Slf4j;
-import ogd.berkeleyDB.easyDPL.dplPlus.DplConfig;
+import org.garen.plus.dplPlus.DplConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
