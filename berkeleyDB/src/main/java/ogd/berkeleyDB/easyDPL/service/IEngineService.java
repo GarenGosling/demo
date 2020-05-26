@@ -25,4 +25,16 @@ public interface IEngineService extends IDplService<String, Engine> {
      * @Return java.util.List<ogd.berkeleyDB.easyDPL.entity.Engine>
      **/
     List<Engine> getByParams(String name, Integer type);
+
+    /**
+     * <p>
+     * 功能描述 : 用 dplPlus 的 execute ，使用原生方法
+     * </p>
+     *
+     * @author : Garen Gosling   2020/5/26 下午5:22
+     *
+     * @param
+     * @Return void
+     **/
+    String useExecute();
 }

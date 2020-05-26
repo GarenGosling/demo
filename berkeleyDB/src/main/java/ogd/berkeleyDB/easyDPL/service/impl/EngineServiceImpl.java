@@ -1,6 +1,9 @@
 package ogd.berkeleyDB.easyDPL.service.impl;
 
+import com.sleepycat.je.LockMode;
+import com.sleepycat.persist.PrimaryIndex;
 import com.sleepycat.persist.SecondaryIndex;
+import ogd.berkeleyDB.easyDPL.entity.AiApp;
 import ogd.berkeleyDB.easyDPL.entity.Engine;
 import ogd.berkeleyDB.easyDPL.service.IEngineService;
 import org.garen.plus.dplPlus.DplServiceImpl;
@@ -38,6 +41,30 @@ public class EngineServiceImpl extends DplServiceImpl<String, Engine> implements
             }
             // 返回参数集合
             return toParamList(param1, param2);
+        }));
+    }
+
+    @Override
+    public String useExecute() {
+        return execute(((store, txn) -> {
+            // aiApp 对象主键、二级索引
+            PrimaryIndex<String, AiApp> aiAppPI = store.getPrimaryIndex(String.class, AiApp.class);
+            SecondaryIndex<String, String, AiApp> aiAppSiName = store.getSecondaryIndex(aiAppPI, String.class, "name");
+
+            // engine 对象主键、二级索引
+            PrimaryIndex<String, Engine> enginePI = store.getPrimaryIndex(String.class, Engine.class);
+            SecondaryIndex<String, String, Engine> engineSiName = store.getSecondaryIndex(enginePI, String.class, "name");
+            SecondaryIndex<Integer, String, Engine> engineSiType = store.getSecondaryIndex(enginePI, Integer.class, "type");
+
+            // 复杂操作，随便写几个意思一下
+            AiApp aiApp = aiAppPI.get(txn, "82752fad926a44a1af652245dc83a625", LockMode.DEFAULT);
+            aiApp.setDescription("hello world");
+            aiAppPI.put(txn, aiApp);
+            aiAppSiName.get("hello");
+            enginePI.delete(txn, "99992fad926a44a1af652245dc839999");
+            engineSiName.get(txn, "engine-1", LockMode.DEFAULT);
+            engineSiType.get(txn, 0, LockMode.DEFAULT);
+            return aiApp.getName();
         }));
     }
 }
