@@ -14,5 +14,5 @@ import java.util.List;
  * @author : Garen Gosling 2020/5/23 上午11:20
  */
 public interface IParamsHandler<SK, PK, E> {
-    List<Param<SK, PK, E>> paramList(EntityStore store, PrimaryIndex<String, Engine> pi);
+    List<Param<SK, PK, E>> paramList(EntityStore store, PrimaryIndex<PK, E> pi);
 }
