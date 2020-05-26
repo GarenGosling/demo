@@ -21,7 +21,7 @@
         <dependency>
             <groupId>org.garen.plus</groupId>
             <artifactId>dplPlus</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.sleepycat</groupId>
