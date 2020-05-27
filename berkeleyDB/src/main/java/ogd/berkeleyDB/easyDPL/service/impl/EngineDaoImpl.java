@@ -5,8 +5,8 @@ import com.sleepycat.persist.PrimaryIndex;
 import com.sleepycat.persist.SecondaryIndex;
 import ogd.berkeleyDB.easyDPL.entity.AiApp;
 import ogd.berkeleyDB.easyDPL.entity.Engine;
-import ogd.berkeleyDB.easyDPL.service.IEngineService;
-import org.garen.plus.dplPlus.DplServiceImpl;
+import ogd.berkeleyDB.easyDPL.service.IEngineDao;
+import org.garen.plus.dplPlus.BaseDaoImpl;
 import org.garen.plus.dplPlus.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author : Garen Gosling 2020/5/23 下午12:05
  */
 @Component
-public class EngineServiceImpl extends DplServiceImpl<String, Engine> implements IEngineService {
+public class EngineDaoImpl extends BaseDaoImpl<String, Engine> implements IEngineDao {
 
     @Override
     public List<Engine> getByParams(String name, Integer type) {

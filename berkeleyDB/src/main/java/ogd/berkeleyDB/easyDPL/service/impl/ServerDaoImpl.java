@@ -1,8 +1,8 @@
 package ogd.berkeleyDB.easyDPL.service.impl;
 
 import ogd.berkeleyDB.easyDPL.entity.Server;
-import ogd.berkeleyDB.easyDPL.service.IServerService;
-import org.garen.plus.dplPlus.DplServiceImpl;
+import ogd.berkeleyDB.easyDPL.service.IServerDao;
+import org.garen.plus.dplPlus.BaseDaoImpl;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Component;
  * @author : Garen Gosling 2020/5/23 下午12:05
  */
 @Component
-public class ServerServiceImpl extends DplServiceImpl<String, Server> implements IServerService {
+public class ServerDaoImpl extends BaseDaoImpl<String, Server> implements IServerDao {
 
 }

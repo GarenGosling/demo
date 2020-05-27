@@ -1,7 +1,7 @@
 package ogd.berkeleyDB.easyDPL.service;
 
 import ogd.berkeleyDB.easyDPL.entity.Engine;
-import org.garen.plus.dplPlus.IDplService;
+import org.garen.plus.dplPlus.IBaseDao;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author : Garen Gosling 2020/5/23 下午3:05
  */
-public interface IEngineService extends IDplService<String, Engine> {
+public interface IEngineDao extends IBaseDao<String, Engine> {
     /**
      * <p>
      * 功能描述 : 条件查询

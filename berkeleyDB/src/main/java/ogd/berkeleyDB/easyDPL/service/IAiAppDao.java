@@ -2,7 +2,7 @@ package ogd.berkeleyDB.easyDPL.service;
 
 
 import ogd.berkeleyDB.easyDPL.entity.AiApp;
-import org.garen.plus.dplPlus.IDplService;
+import org.garen.plus.dplPlus.IBaseDao;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import org.garen.plus.dplPlus.IDplService;
  *
  * @author : Garen Gosling 2020/5/23 下午3:05
  */
-public interface IAiAppService extends IDplService<String, AiApp> {
+public interface IAiAppDao extends IBaseDao<String, AiApp> {
 
 }
